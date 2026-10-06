@@ -1,0 +1,343 @@
+<title>Recap Within the Hour</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: one calm reading column, with the 140-call timeline as the single loud moment. Everything else is quiet. */
+:root{
+  --bg:#F2F5F8; --surface:#FFFFFF; --ink:#0D1A26; --muted:#566878; --line:#D3DBE3; --wash:#E8EDF2;
+  --am:#0A8A6E; --agent:#2A4FD6; --bad:#D6402B; --bad-wash:#FBE9E5; --good-wash:#E2F4EE; --late-zone:#FBEFEC;
+  --f-display:'Bricolage Grotesque','Hanken Grotesk',system-ui,sans-serif;
+  --f-body:'Hanken Grotesk',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#09131B; --surface:#101E29; --ink:#E7EEF4; --muted:#92A4B3; --line:#223442; --wash:#16273A;
+  --am:#3DCBA5; --agent:#7D96FF; --bad:#FF7B66; --bad-wash:#3A1D1A; --good-wash:#12332B; --late-zone:#2A1A1B; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#09131B; --surface:#101E29; --ink:#E7EEF4; --muted:#92A4B3; --line:#223442; --wash:#16273A;
+  --am:#3DCBA5; --agent:#7D96FF; --bad:#FF7B66; --bad-wash:#3A1D1A; --good-wash:#12332B; --late-zone:#2A1A1B; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--f-body);padding-inline:clamp(16px,4vw,48px);padding-block:0 96px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin-inline:auto}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;letter-spacing:-.02em}
+p{margin:0}
+a{color:var(--agent);text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:3px solid var(--agent);outline-offset:3px;border-radius:4px}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.eyebrow{font:600 12px/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+/* masthead */
+.mast{padding-block:56px 40px;display:grid;gap:20px}
+.mast h1{font-size:clamp(40px,7.4vw,84px);line-height:.95;font-weight:800}
+.mast h1 em{font-style:normal;color:var(--bad)}
+.lede{font-size:clamp(18px,2.2vw,21px);max-width:62ch;color:var(--muted)}
+.lede b{color:var(--ink);font-weight:600}
+.meta{display:flex;flex-wrap:wrap;gap:8px 20px;font:500 13px/1.4 var(--f-mono);color:var(--muted)}
+
+/* timeline hero */
+.stage{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:clamp(16px,3vw,32px);display:grid;gap:18px}
+.stage-head{display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-between;align-items:end}
+.stage-head h2{font-size:clamp(22px,3vw,30px);line-height:1.1}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;font:500 13px/1 var(--f-mono);color:var(--muted)}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:7px;vertical-align:-1px}
+.legend .ring{background:none;border:1.5px solid var(--muted)}
+#plot{width:100%;min-width:0}
+#plot svg{display:block;width:100%;height:auto;overflow:visible}
+.note{font-size:14px;color:var(--muted);max-width:80ch}
+
+/* sections */
+section{padding-top:88px;display:grid;gap:28px}
+.sec-head{display:grid;gap:10px;max-width:760px}
+.sec-head h2{font-size:clamp(28px,4.4vw,46px);line-height:1.02;font-weight:700}
+.sec-head p{color:var(--muted);font-size:18px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.fact{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px;display:grid;gap:10px;align-content:start;min-width:0}
+.fact .big{font:800 clamp(40px,5vw,56px)/1 var(--f-display);letter-spacing:-.03em}
+.fact h3{font-size:19px;line-height:1.25;font-weight:600;letter-spacing:-.01em}
+.fact p{color:var(--muted);font-size:15px}
+
+/* decomposition */
+.split{background:var(--surface);border:1px solid var(--line);border-radius:20px;overflow:hidden}
+.split-row{display:grid;grid-template-columns:92px 1fr 1fr 84px;gap:18px;align-items:center;padding:18px clamp(16px,3vw,28px);border-top:1px solid var(--line)}
+.split-row:first-child{border-top:0}
+.split-row.head{font:600 11.5px/1.3 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:var(--wash)}
+.pod{font:700 18px/1 var(--f-display)}
+.pod small{display:block;font:500 12px/1.3 var(--f-body);color:var(--muted);margin-top:4px}
+.bar{display:grid;gap:6px;min-width:0}
+.bar .track{height:12px;border-radius:6px;background:var(--wash);overflow:hidden}
+.bar .fill{height:100%;border-radius:6px;background:var(--agent)}
+.bar .fill.low{background:var(--bad)}
+.bar span{font:500 13px/1 var(--f-mono)}
+.result{font:800 26px/1 var(--f-display);text-align:right}
+.result.fail{color:var(--bad)}
+.focus{background:var(--late-zone)}
+@media (max-width:640px){
+  .split-row{grid-template-columns:1fr 1fr;gap:12px 16px}
+  .split-row.head{display:none}
+  .split-row .pod{grid-column:1}.split-row .result{grid-column:2}
+  .split-row .bar{grid-column:span 1}
+}
+
+/* recap compare */
+.compare{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:16px}
+.doc{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:clamp(18px,3vw,28px);display:grid;gap:14px;align-content:start;min-width:0}
+.doc .tag{font:600 12px/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;padding:6px 10px;border-radius:999px;width:max-content}
+.tag.before{background:var(--bad-wash);color:var(--bad)}
+.tag.after{background:var(--good-wash);color:var(--am)}
+.doc h3{font-size:20px;font-weight:700}
+.doc p,.doc li{font-size:15px;line-height:1.65}
+.doc ul{margin:0;padding-left:18px;display:grid;gap:6px}
+mark{background:var(--bad-wash);color:var(--ink);border-radius:4px;padding:1px 4px;box-shadow:inset 0 -2px 0 var(--bad)}
+mark sup{font:700 10px/1 var(--f-mono);color:var(--bad);margin-left:3px}
+.issues{display:grid;gap:8px;font-size:14px;color:var(--muted);margin:0;padding:0;list-style:none;border-top:1px dashed var(--line);padding-top:14px}
+.issues li{display:grid;grid-template-columns:22px 1fr;gap:8px}
+.issues b{font:700 11px/1.7 var(--f-mono);color:var(--bad)}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th{font:600 11px/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+td{padding:10px;border-bottom:1px solid var(--line);vertical-align:top}
+.ok{color:var(--am);font-weight:600}
+
+/* plan */
+.week{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:12px}
+.day{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;display:grid;gap:8px;align-content:start}
+.day b{font:700 12px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--agent)}
+.day p{font-size:14.5px;line-height:1.5}
+.day.fri{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.day.fri b{color:var(--bg);opacity:.7}
+.msg{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--agent);border-radius:14px;padding:clamp(18px,3vw,28px);display:grid;gap:12px;max-width:760px}
+.msg p{font-size:17px;line-height:1.6}
+.msg .to{font:600 12px/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:16px}
+.q{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px;display:grid;gap:8px;align-content:start}
+.q h3{font-size:18px;font-weight:600;letter-spacing:-.01em}
+.q p{font-size:15px;color:var(--muted)}
+.q ul{margin:0;padding-left:18px;color:var(--muted);font-size:15px;display:grid;gap:6px}
+.target{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 20px;padding:24px clamp(18px,3vw,32px);background:var(--ink);color:var(--bg);border-radius:20px}
+.target .n{font:800 clamp(52px,9vw,96px)/.9 var(--f-display);letter-spacing:-.04em}
+.target .from{font:500 14px/1.4 var(--f-mono);opacity:.75}
+.target p{flex:1 1 280px;font-size:16px;opacity:.9}
+
+/* files */
+.files{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:10px}
+.file{display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:center;padding:14px 16px;background:var(--surface);border:1px solid var(--line);border-radius:12px;text-decoration:none;color:var(--ink);min-width:0}
+.file:hover{border-color:var(--agent)}
+.file i{font:700 12px/1 var(--f-mono);font-style:normal;background:var(--wash);color:var(--muted);border-radius:8px;padding:10px 0;text-align:center}
+.file b{display:block;font:600 15px/1.3 var(--f-body)}
+.file span{font-size:13px;color:var(--muted)}
+footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px 28px;font:500 13px/1.5 var(--f-mono);color:var(--muted)}
+@media (prefers-reduced-motion:no-preference){.dot{transition:opacity .15s}}
+</style>
+
+<div class="wrap">
+  <header class="mast">
+    <div class="eyebrow">Ironside Biz Ops case study · Brightline recap step · 2 Oct 2026</div>
+    <h1>Recap within the <em>hour</em></h1>
+    <p class="lede">Target: 80% of client calls get a recap inside 60 minutes, in every pod, by 31 October. Only North is there. <b>South is the pod to fix first</b>, because the recaps already exist and arrive late. Below is the evidence, the fix for the agent, and a one-week plan.</p>
+    <div class="meta"><span>140 calls · 1 to 24 Sep</span><span>4 pods</span><span>All numbers recomputed from calls.csv</span></div>
+  </header>
+
+  <div class="stage" aria-labelledby="hero-title">
+    <div class="stage-head">
+      <div class="eyebrow" id="hero-title">Every call, by minutes until its recap was posted</div>
+      <div class="legend">
+        <span><i style="background:var(--am)"></i>Posted by the AM</span>
+        <span><i style="background:var(--agent)"></i>Posted by the agent</span>
+        <span><i class="ring"></i>No recording</span>
+        <span><i style="background:var(--bad)"></i>Recorded, never posted</span>
+      </div>
+    </div>
+    <div id="plot" role="img" aria-label="Strip plot of recap delay per call for each pod. Account managers post within 28 minutes. The agent posts between 45 and 91 minutes. North 90 percent on time, East 70, South 35, West 10."></div>
+    <p class="note">Each dot is one call. Left of the red line is on time. The agent never posted faster than 45 minutes in any pod. When an account manager posts, it is on time every time (45 of 45, median 18 minutes).</p>
+  </div>
+
+  <section>
+    <div class="sec-head">
+      <div class="eyebrow">Block B · Move the number</div>
+      <h2>Three things the data says</h2>
+    </div>
+    <div class="grid3">
+      <div class="fact"><div class="big" style="color:var(--bad)">70%</div><h3>East is not 75%</h3><p>The dashboard divides 21 by the 28 recorded calls. Every other pod divides by all calls held. On the same basis East is 21 of 30.</p></div>
+      <div class="fact"><div class="big" style="color:var(--am)">18 min</div><h3>A person posts four times faster</h3><p>Median 18 minutes for AM-posted recaps, never late. The agent's median is 65 and only 29 of its 59 recaps landed inside the hour.</p></div>
+      <div class="fact"><div class="big">0 of 36</div><h3>South posts nothing itself</h3><p>North's AMs posted 33 of 38. South's two recorded Kettle &amp; Crumb calls from 22 and 24 Sep got no recap at all.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>Two different gaps, so two different fixes</h2>
+      <p>Share on time is recording rate times on-time rate. West loses at the first step, South at the second. South is the one that moves this week.</p>
+    </div>
+    <div class="split" role="table" aria-label="Recorded share and on-time share by pod">
+      <div class="split-row head" role="row"><span>Pod</span><span>Calls recorded</span><span>On time, of those recorded</span><span style="text-align:right">Share</span></div>
+      <div class="split-row" role="row"><div class="pod">North<small>Sam Whitaker</small></div><div class="bar"><div class="track"><div class="fill" style="width:95%"></div></div><span>95%</span></div><div class="bar"><div class="track"><div class="fill" style="width:95%"></div></div><span>95%</span></div><div class="result">90%</div></div>
+      <div class="split-row" role="row"><div class="pod">East<small>Aisha Rahman</small></div><div class="bar"><div class="track"><div class="fill" style="width:93%"></div></div><span>93%</span></div><div class="bar"><div class="track"><div class="fill" style="width:75%"></div></div><span>75%</span></div><div class="result fail">70%</div></div>
+      <div class="split-row focus" role="row"><div class="pod">South<small>Marcus Obi · first</small></div><div class="bar"><div class="track"><div class="fill" style="width:90%"></div></div><span>90%</span></div><div class="bar"><div class="track"><div class="fill low" style="width:39%"></div></div><span>39%</span></div><div class="result fail">35%</div></div>
+      <div class="split-row" role="row"><div class="pod">West<small>Lena Varga</small></div><div class="bar"><div class="track"><div class="fill low" style="width:13%"></div></div><span>13%</span></div><div class="bar"><div class="track"><div class="fill" style="width:75%"></div></div><span>75%</span></div><div class="result fail">10%</div></div>
+    </div>
+    <p class="note">West's gap is capture: 26 of 30 calls were on WhatsApp, so nothing reached the agent. Fixing that needs a tool or a client change, and Lena is already on it. South already has 34 recaps for 36 recorded calls. If all 34 landed inside the hour, South would sit at 85%.</p>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <div class="eyebrow">Block C · Train the agent</div>
+      <h2>The recap that reached a client channel</h2>
+      <p>Last week's agent recap of a Loop Athletic call, marked up against its transcript and the brain's rules, next to the same call after the skill rewrite, run in a fresh session that saw only the skill, the brain and the transcript.</p>
+    </div>
+    <div class="compare">
+      <article class="doc">
+        <span class="tag before">Before</span>
+        <h3>Loop Athletic weekly, 15 Sep</h3>
+        <p><mark>Great call with Theo.<sup>1</sup></mark> All 12 fall videos were delivered and the try-on format is performing much better. Loop Athletic is at <mark>$95K GMV<sup>2</sup></mark> this month. Theo wants 12 more videos for October, all try-on. There's a size chart issue on the product page. <mark>Theo's CEO is frustrated with the agency fees and might put us up for review in Q1.<sup>3</sup></mark></p>
+        <ul><li>Send the October brief<sup style="color:var(--bad);font:700 10px var(--f-mono)"> 4</sup></li><li><mark>Keep an eye on the account review risk<sup>5</sup></mark></li></ul>
+        <ol class="issues">
+          <li><b>1</b><span>Mood, not facts.</span></li>
+          <li><b>2</b><span>Typed performance number. It also disagrees with the sheet and nothing flagged it.</span></li>
+          <li><b>3</b><span>From a private message pasted after the client left the call. Breaks the private and commercial-terms rules.</span></li>
+          <li><b>4</b><span>No owner and no due date. The transcript gives both: Lena, Friday 18 Sep.</span></li>
+          <li><b>5</b><span>Nobody committed to this. The leak is now in the action list too.</span></li>
+        </ol>
+      </article>
+      <article class="doc">
+        <span class="tag after">After</span>
+        <h3>Loop Athletic: weekly</h3>
+        <ul>
+          <li>All 12 fall videos delivered. The last four are try-on, as decided on 10 Sep.</li>
+          <li>Theo said the try-on videos perform better than the earlier ones.</li>
+          <li>Decision: an October batch of 12 more, all try-on.</li>
+          <li>GMV mentioned on the call. See the sheet, row <span class="mono">loop-athletic</span>.</li>
+        </ul>
+        <div class="tbl"><table><thead><tr><th>Owner</th><th>Action</th><th>Due</th></tr></thead><tbody><tr><td>Lena Varga</td><td>Send Theo the October brief</td><td class="mono">2026-09-18</td></tr></tbody></table></div>
+        <p style="font-size:14px"><b>Open question.</b> Size chart issue: no owner or date was agreed.</p>
+        <p style="font-size:14px"><b>Flags.</b> The call's GMV does not match the sheet and is not copied. Content after the client left the call was held back.</p>
+        <p class="ok" style="font-size:14px">Passes the linter in <span class="mono">extra/</span>. The old recap fails it with 10 problems.</p>
+      </article>
+    </div>
+    <p class="note">The old skill told the agent to "include everything relevant so nothing gets lost" and to "include the key numbers". The new one defines where a call ends, forbids typed performance numbers, requires one owner and a date per action, and ends with a checklist before saving.</p>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <div class="eyebrow">B3 · One week for South</div>
+      <h2>Move the email into the channel</h2>
+      <p>The content was never the complaint. The agent just arrives after Marcus has already sent his own summary. The plan lets his summary be the recap.</p>
+    </div>
+    <div class="msg">
+      <div class="to">To Marcus Obi · Mon 5 Oct</div>
+      <p>You were right in #pod-south: the bot posts 45 to 90 min after the call (South median is 74), so your own notes win. When an AM posts, it takes 18 min and is never late.</p>
+      <p>This week, post the summary you'd email Dana in the client channel instead, same text, with an owner and a date on each action. That counts as the recap, so there's no double work.</p>
+    </div>
+    <div class="week">
+      <div class="day"><b>Mon</b><p>30 min with Sam to see how North posts in 18 minutes. Then 30 min with Marcus to set it up. Fix the East dashboard formula.</p></div>
+      <div class="day"><b>Tue</b><p>Same-day check of every South call in calls.csv. Backfill the two missing Kettle &amp; Crumb recaps.</p></div>
+      <div class="day"><b>Wed</b><p>One-page evidence to Priya, so the target is agreed before anyone changes how it is counted.</p></div>
+      <div class="day"><b>Thu</b><p>Ask once for any recap that is late. Collect what the bot got wrong for the skill.</p></div>
+      <div class="day fri"><b>Fri</b><p>Report the number from calls.csv only. Send engineering the evidence ticket.</p></div>
+    </div>
+    <div class="target">
+      <div class="n">70%</div>
+      <div class="from">from 35%<br>7 of 10 calls</div>
+      <p>Expected South share by Friday 9 Oct. About 1 call in 10 is a phone call that cannot be recorded, so 90% is the ceiling for now. Not promising 80% in week one: it is a habit change for two people.</p>
+    </div>
+    <div class="two">
+      <div class="q"><h3>What Marcus will push back with</h3>
+        <ul>
+          <li><b>"I already send the client a summary."</b> The post replaces the email. About three extra minutes for owners and dates.</li>
+          <li><b>"Priya said count emailed summaries."</b> Emails are not logged, so nobody can audit the number. The same text posted in the channel counts.</li>
+          <li><b>"Make the bot faster."</b> Agreed, it is in the ticket. Its fastest run is 45 minutes, so the AM post stays the reliable path.</li>
+        </ul></div>
+      <div class="q"><h3>What keeps it going after I leave</h3>
+        <ul>
+          <li>The bot's draft arrives in 15 minutes, so the AM edits instead of writes.</li>
+          <li>Marcus owns the number. The dashboard is posted in #pod-south every Monday. Tomas is the backup poster.</li>
+          <li>A linter checks owners, dates, typed numbers and the never-list before anything posts.</li>
+          <li>A same-day alert when a recorded call has no recap.</li>
+        </ul></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <div class="eyebrow">C3 · For the engineer who builds the agent</div>
+      <h2>What a skill file cannot fix</h2>
+    </div>
+    <div class="grid3">
+      <div class="fact"><div class="big" style="color:var(--agent)">45 to 91</div><h3>Minutes until the agent posts</h3><p>Median 65 over 59 recaps. South's median is 74, others 55 to 59, and call load and time of day do not explain it. Trace where the minutes go. Target: 90% within 20 minutes, plus an on-demand run.</p></div>
+      <div class="fact"><div class="big" style="color:var(--bad)">2</div><h3>Recorded calls with no recap</h3><p>Both Kettle &amp; Crumb, both silent. Alert the same day.</p></div>
+      <div class="fact"><div class="big">1</div><h3>Hard gate in code</h3><p>Cut the transcript where the client leaves. Block posting unless every action has an owner and a date and no performance number is typed.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <div class="eyebrow">Block A · Do the work</div>
+      <h2>The deliverables</h2>
+      <p>Two recaps follow the brain's template and rules. Dana's GMV claim is flagged against the sheet instead of copied, and everything said after she left the 22 Sep call stays out. Page edits are proposed, not made.</p>
+    </div>
+    <div class="files">
+      <a class="file" href="https://github.com/utkuacikgoz/ironside/blob/main/brain/knowledge/meetings/2026-09-22-kettle-and-crumb-weekly.md"><i>A1</i><div><b>Recap, 22 Sep weekly</b><span>Six actions, each with one owner and a date</span></div></a>
+      <a class="file" href="https://github.com/utkuacikgoz/ironside/blob/main/brain/knowledge/meetings/2026-09-24-kettle-and-crumb-monthly-business-review.md"><i>A2</i><div><b>Recap, 24 Sep review</b><span>New ops contact, budget settled, GMV flagged</span></div></a>
+      <a class="file" href="https://github.com/utkuacikgoz/ironside/blob/main/proposed-changes.md"><i>A2</i><div><b>Proposed changes</b><span>People, account and sheet edits for a person to approve</span></div></a>
+      <a class="file" href="https://github.com/utkuacikgoz/ironside/blob/main/answer.md"><i>A3</i><div><b>Prep for Dana</b><span>What to know before talking affiliates</span></div></a>
+      <a class="file" href="https://github.com/utkuacikgoz/ironside/blob/main/block-b.md"><i>B1 B2</i><div><b>Ranking and cause</b><span>Why South goes first</span></div></a>
+      <a class="file" href="https://github.com/utkuacikgoz/ironside/blob/main/plan.md"><i>B3</i><div><b>One-week plan</b><span>Message, pushback, what sticks</span></div></a>
+      <a class="file" href="https://github.com/utkuacikgoz/ironside/blob/main/block-c.md"><i>C1 C2</i><div><b>Recap review and rerun</b><span>Mistakes, new skill, before and after</span></div></a>
+      <a class="file" href="https://github.com/utkuacikgoz/ironside/blob/main/fde-ticket.md"><i>C3</i><div><b>Engineering ticket</b><span>145 words, with evidence</span></div></a>
+      <a class="file" href="https://github.com/utkuacikgoz/ironside/blob/main/extra/README.md"><i>EX</i><div><b>bizops.py</b><span>Recap linter and dashboard recompute</span></div></a>
+    </div>
+  </section>
+
+  <footer>
+    <span>About 1 hour of human time</span>
+    <span>No questions skipped</span>
+    <span>Next to automate: the pre-post gate, an on-demand recap, a weekly dashboard</span>
+  </footer>
+</div>
+
+<script>
+const DATA={"South":{"am":[],"ag":[45,46,47,47,49,49,50,51,51,52,53,53,57,58,69,71,74,74,74,75,75,76,76,77,80,80,80,80,82,83,85,86,88,91],"lost":2,"norec":4},"North":{"am":[9,9,10,10,11,11,12,13,13,14,14,15,15,16,17,18,18,19,19,19,20,20,21,21,21,21,22,22,22,22,23,23,24],"ag":[48,49,58,65,73],"lost":0,"norec":2},"West":{"am":[],"ag":[51,55,56,71],"lost":0,"norec":26},"East":{"am":[11,12,16,17,18,18,19,24,24,26,27,28],"ag":[46,48,52,55,55,55,57,59,59,67,68,75,77,83,84,86],"lost":0,"norec":2}};
+const ORDER=[['North','Sam Whitaker',90],['East','Aisha Rahman',70],['South','Marcus Obi',35],['West','Lena Varga',10]];
+const MAXM=95, LANE=30;
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+function jit(i,amp){const x=Math.sin(i*12.9898+7.233)*43758.5453;return ((x-Math.floor(x))-.5)*2*amp}
+function draw(){
+  const host=document.getElementById('plot');
+  const W=Math.max(host.clientWidth,300), narrow=W<620;
+  const L=narrow?4:176, R=narrow?4:4, laneW=narrow?64:92, rowH=narrow?84:70, labelH=narrow?26:0, top=26, bot=48;
+  const plotW=W-L-R-laneW-16, x=m=>L+m/MAXM*plotW, laneX=L+plotW+16;
+  const H=top+ORDER.length*(rowH+labelH)+bot;
+  const c={am:css('--am'),agent:css('--agent'),bad:css('--bad'),muted:css('--muted'),line:css('--line'),ink:css('--ink'),zone:css('--late-zone'),wash:css('--wash')};
+  let s=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" font-family="IBM Plex Mono, ui-monospace, monospace">`;
+  s+=`<rect x="${x(60)}" y="${top-14}" width="${x(MAXM)-x(60)}" height="${H-top-bot+14}" fill="${c.zone}" rx="6"/>`;
+  [0,15,30,45,60,75,90].forEach(t=>{s+=`<line x1="${x(t)}" x2="${x(t)}" y1="${top-8}" y2="${H-bot}" stroke="${c.line}" stroke-width="1" ${t===60?'':'stroke-dasharray="2 4"'}/>`;
+    s+=`<text x="${x(t)}" y="${H-bot+20}" fill="${c.muted}" font-size="11.5" text-anchor="middle">${t}</text>`});
+  s+=`<line x1="${x(60)}" x2="${x(60)}" y1="${top-14}" y2="${H-bot}" stroke="${c.bad}" stroke-width="2"/>`;
+  s+=`<text x="${x(60)+8}" y="${top-3}" fill="${c.bad}" font-size="11.5" font-weight="600">60 min: late</text>`;
+  s+=`<text x="${L}" y="${H-8}" fill="${c.muted}" font-size="11.5">minutes after the call ends</text>`;
+  s+=`<text x="${laneX+laneW/2}" y="${top-3}" fill="${c.muted}" font-size="11" text-anchor="middle">NO RECAP</text>`;
+  ORDER.forEach(([pod,lead,share],r)=>{
+    const y0=top+r*(rowH+labelH), cy=y0+labelH+rowH/2, d=DATA[pod];
+    if(r>0) s+=`<line x1="${L}" x2="${W}" y1="${y0-6}" y2="${y0-6}" stroke="${c.line}" stroke-width="1"/>`;
+    const ly=narrow?y0+14:cy-4;
+    s+=`<text x="${narrow?L:0}" y="${ly}" fill="${c.ink}" font-size="${narrow?16:17}" font-weight="700" font-family="Bricolage Grotesque, Hanken Grotesk, sans-serif">${pod}</text>`;
+    s+=`<text x="${narrow?L+56:0}" y="${narrow?ly:cy+16}" fill="${c.muted}" font-size="11.5">${lead}</text>`;
+    d.am.forEach((m,i)=>s+=`<circle class="dot" cx="${x(m)}" cy="${cy+jit(i+r*50,rowH/2-10)+(narrow?6:0)}" r="${narrow?4:5}" fill="${c.am}" fill-opacity=".82"/>`);
+    d.ag.forEach((m,i)=>s+=`<circle class="dot" cx="${x(m)}" cy="${cy+jit(i+r*50+200,rowH/2-10)+(narrow?6:0)}" r="${narrow?4:5}" fill="${c.agent}" fill-opacity=".82"/>`);
+    const cols=narrow?5:7, step=narrow?11:12.5; let k=0;
+    for(let i=0;i<d.norec;i++,k++){const cx=laneX+8+(k%cols)*step, cyy=cy-rowH/2+14+Math.floor(k/cols)*step+(narrow?labelH/2:0);
+      s+=`<circle cx="${cx}" cy="${cyy}" r="4" fill="none" stroke="${c.muted}" stroke-width="1.5"/>`}
+    for(let i=0;i<d.lost;i++,k++){const cx=laneX+8+(k%cols)*step, cyy=cy-rowH/2+14+Math.floor(k/cols)*step+(narrow?labelH/2:0);
+      s+=`<circle cx="${cx}" cy="${cyy}" r="4.5" fill="${c.bad}"/>`}
+    // share, right of the label column
+    const sh=`<text x="${narrow?W-R:L-12}" y="${narrow?ly+2:cy+4}" fill="${share>=80?c.am:c.bad}" font-size="${narrow?22:28}" font-weight="800" text-anchor="end" font-family="Bricolage Grotesque, sans-serif">${share}%</text>`;
+    s+=sh;
+  });
+  s+='</svg>';host.innerHTML=s;
+}
+draw();
+let t;addEventListener('resize',()=>{clearTimeout(t);t=setTimeout(draw,80)});
+matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',draw);
+new MutationObserver(draw).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+</script>
