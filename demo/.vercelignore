@@ -1,0 +1,10 @@
+node_modules/
+tests/
+test-results/
+README.md
+QA.md
+package.json
+package-lock.json
+.vercel/
+.env*
+.gitignore

@@ -9,7 +9,7 @@ source: inbox/call-1.md
 # Kettle & Crumb: weekly
 
 ## Summary
-- Affiliates update from Tomas. Dana restated the target of 60 active affiliates by 31 Oct and said the pace needs to go up. Current count and target: see `../reference/accounts-sheet.csv`, row `kettle-and-crumb`. (Target set on 3 Sep, [recap](2026-09-03-kettle-and-crumb-affiliates-deep-dive.md).)
+- Affiliates update from Tomas. Dana restated the target of 60 active affiliates by 31 Oct and said the pace needs to go up. Current count and target: see [accounts-sheet.csv](../reference/accounts-sheet.csv), row `kettle-and-crumb`. (Target set on 3 Sep, [recap](2026-09-03-kettle-and-crumb-affiliates-deep-dive.md).)
 - Next batch: Tomas has 25 creators ready. Dana will approve them by Wednesday 23 Sep if she gets them tonight; samples go out Thursday 24 Sep.
 - Sample shipping budget, open since 12 Aug and 3 Sep ([kickoff](2026-08-12-kettle-and-crumb-affiliates-kickoff.md), [deep dive](2026-09-03-kettle-and-crumb-affiliates-deep-dive.md)): Dana said "up to $8 a box for now" and will confirm the monthly cap by Friday 25 Sep.
 - Recuts from the 17 Sep weekly ([recap](2026-09-17-kettle-and-crumb-weekly.md)): both are done and in Dana's folder. She has seen one and will approve both tomorrow.

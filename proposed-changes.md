@@ -18,7 +18,7 @@ No change proposed to `active_affiliates` or `affiliate_target`. The 22 Sep call
 
 **`people/dana-reyes.md`**
 - Role: "Head of Growth" → "VP Growth, Kettle & Crumb (client)". Promoted the week of 14 Sep (said on 24 Sep).
-- Works with: add [Jess Park](people/jess-park.md).
+- Works with: add Jess Park (proposed page: `brain/knowledge/people/jess-park.md`).
 - What she has told us, add:
   - 2026-09-22: will approve the next 25 creators by Wed, wants the Wednesday summary kept and extended with top-selling creators. [recap](brain/knowledge/meetings/2026-09-22-kettle-and-crumb-weekly.md)
   - 2026-09-24: promotion, goals for October (60 affiliates by 31 Oct, double the posting rate on the fall flavor after 6 Oct). [recap](brain/knowledge/meetings/2026-09-24-kettle-and-crumb-monthly-business-review.md)
@@ -46,10 +46,10 @@ updated: <approval date>
 - Frontmatter `updated`.
 
 ## Account page: `accounts/kettle-and-crumb.md`
-- Client contact: "[Dana Reyes], Head of Growth" → "VP Growth". Add "[Jess Park](../people/jess-park.md), ops and fulfillment (samples, shipping, inventory)".
+- Client contact: "[Dana Reyes], Head of Growth" → "VP Growth". Add Jess Park as the ops and fulfillment contact (samples, shipping, inventory), with a link once the proposed page is approved.
 - Current focus: add "fall flavor launch 6 Oct, goal to double the posting rate after launch". Keep the affiliates target line.
 - Add: "Sample budget: $8 a box, capped at $600 a month (agreed 2026-09-24)". This is a client decision, so it is recorded as said.
-- Meetings: add the [22 Sep weekly](../meetings/2026-09-22-kettle-and-crumb-weekly.md) and [24 Sep monthly review](../meetings/2026-09-24-kettle-and-crumb-monthly-business-review.md).
+- Meetings: add the [22 Sep weekly](brain/knowledge/meetings/2026-09-22-kettle-and-crumb-weekly.md) and [24 Sep monthly review](brain/knowledge/meetings/2026-09-24-kettle-and-crumb-monthly-business-review.md).
 - Frontmatter `updated`.
 
 ## Not proposed, on purpose
