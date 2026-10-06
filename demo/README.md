@@ -34,4 +34,4 @@ The board and timeline use solid marks for timely posts, outlines for late posts
 
 Live URL: https://ironside-case-study.vercel.app/
 
-Deploy from this directory with `vercel --prod --scope utku-acikgozs-projects`. The project is `ironside-case-study`. `vercel.json` serves static assets without an install or build step. `.vercelignore` excludes development files and local environment metadata. Source links on the page are pinned to the reviewed case revision.
+The Vercel project is `ironside-case-study` and its Root Directory must be `demo` in Project Settings. Git merges to main deploy that folder using `demo/vercel.json`: framework Other, empty install/build commands, and output directory `.`. `.vercelignore` excludes development files and local environment metadata. A project rooted at the repository root will not serve the landing page at `/`. Source links on the page are pinned to the reviewed case revision.
