@@ -1,0 +1,102 @@
+const { chromium } = require('playwright');
+const { default: AxeBuilder } = require('@axe-core/playwright');
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const http = require('node:http');
+
+(async () => {
+  const file = path.resolve(__dirname, '../index.html');
+  const html = fs.readFileSync(file);
+  const server = http.createServer((req, res) => {
+    res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+    res.end(html);
+  });
+  await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
+  const url = `http://127.0.0.1:${server.address().port}`;
+  const browser = await chromium.launch({
+    ...(process.env.CHROME_PATH ? {executablePath: process.env.CHROME_PATH} : {}),
+    headless: true,
+  });
+  try {
+    const context = await browser.newContext();
+    const page = await context.newPage();
+    const errors = [];
+    page.on('pageerror', error => errors.push(error.message));
+    const requests = [];
+    page.on('request', request => requests.push(request.url()));
+    for (const width of [1440, 1024, 768, 390, 320]) {
+      await page.setViewportSize({width, height: 1000});
+      await page.goto(url);
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, `Overflow at ${width}`);
+      assert.equal(await page.locator('#chart circle').count(), 104);
+      const audit = await new AxeBuilder({page}).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
+      assert.deepEqual(audit.violations.map(v => ({id: v.id, nodes: v.nodes.map(n => n.target)})), [], `Accessibility at ${width}`);
+      if (process.env.SCREENSHOT_DIR && [1440, 390].includes(width)) {
+        fs.mkdirSync(process.env.SCREENSHOT_DIR, {recursive:true});
+        await page.screenshot({path:path.join(process.env.SCREENSHOT_DIR, `landing-${width}.png`), fullPage:true});
+      }
+    }
+    await page.getByRole('button', {name:'Fix South’s timing'}).click();
+    assert.equal(await page.locator('#hero-rate').textContent(), '85');
+    assert.match(await page.locator('#scenario-note').textContent(), /model, not a result/);
+    assert.match(await page.locator('.plot-row').nth(2).getByRole('img').getAttribute('aria-label'), /34 of 40/);
+    await page.getByRole('button', {name:'As it happened'}).click();
+    assert.equal(await page.locator('#hero-rate').textContent(), '35');
+    await page.getByRole('button', {name:'Account manager', exact:true}).click();
+    assert.equal(await page.locator('#chart circle[fill="none"]').count(), 59);
+    await page.getByRole('button', {name:'Agent', exact:true}).click();
+    assert.equal(await page.locator('#chart circle[fill="none"]').count(), 45);
+    await page.getByRole('tab', {name:'After', exact:true}).focus();
+    await page.keyboard.press('ArrowLeft');
+    assert.equal(await page.locator('#before-tab').getAttribute('aria-selected'), 'true');
+    assert.equal(await page.locator('#before-panel').isVisible(), true);
+    await page.keyboard.press('End');
+    assert.equal(await page.locator('#after-panel').isVisible(), true);
+    await page.getByRole('tab', {name:'Mon', exact:true}).focus();
+    await page.keyboard.press('End');
+    assert.equal(await page.locator('#day-fri').getAttribute('aria-selected'), 'true');
+    assert.match(await page.locator('#day-title').textContent(), /Show the number/);
+    await page.keyboard.press('Home');
+    assert.equal(await page.locator('#day-mon').getAttribute('aria-selected'), 'true');
+    await page.getByText('Inspect the call log', {exact:false}).click();
+    await page.locator('#call-rows tr').first().waitFor();
+    assert.equal(await page.locator('#call-rows tr').count(), 140);
+    await page.getByRole('button', {name:'South', exact:true}).click();
+    assert.equal(await page.locator('#call-rows tr').count(), 40);
+    assert.equal(await page.locator('#call-rows tr').filter({hasText:'On time'}).count(), 14);
+    assert.equal(await page.locator('#call-rows tr').filter({hasText:'Late'}).count(), 20);
+    assert.equal(await page.locator('#call-rows tr').filter({hasText:'Missing recap'}).count(), 2);
+    await page.getByRole('button', {name:'Fix South’s timing'}).click();
+    assert.equal(await page.locator('#call-rows tr').filter({hasText:'On time'}).count(), 14, 'Scenario must not alter source log');
+    const audit = await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa','wcag22aa']).analyze();
+    assert.deepEqual(audit.violations.map(v => v.id), [], 'Expanded interactive state');
+    await page.emulateMedia({reducedMotion:'reduce'});
+    assert.equal(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior), 'auto');
+    await page.emulateMedia({forcedColors:'active'});
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
+    await page.emulateMedia({forcedColors:'none'});
+    // Browser zoom changes the CSS viewport: 1280 physical pixels at 200% gives 640 CSS pixels.
+    await page.setViewportSize({width:640,height:500});
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, '200% zoom equivalent');
+    assert.deepEqual(errors, []);
+    assert.equal(requests.some(u => !u.startsWith(url)), false, 'No external requests');
+    assert.ok(html.length < 65000, `Page should stay below 65 KB; got ${html.length}`);
+    const source = fs.readFileSync(path.resolve(__dirname, '../../calls.csv'), 'utf8').trim().split(/\r?\n/);
+    const embedded = JSON.parse(html.toString().match(/const CALLS=(\[.*?\]);/s)[1]);
+    assert.equal(embedded.length, source.length - 1);
+    for (const [index,line] of source.slice(1).entries()) {
+      const [id,date,pod,account,,ended,recorded,posted,by] = line.split(',');
+      const minutes = posted ? (new Date(posted) - new Date(ended)) / 60000 : null;
+      assert.deepEqual(embedded[index], {id,date,pod,account,recorded:recorded==='yes',by,minutes}, `Source data mismatch: ${id}`);
+    }
+    const visibleCopy = await page.locator('main').innerText();
+    assert.equal(/[—–]/.test(visibleCopy), false, 'No dashes in page copy');
+    assert.equal(/[↗↘←→]/.test(await page.locator('body').innerText()), false, 'No arrows in page copy');
+    assert.equal(await page.locator('.hero-foot, .hero-top, .report').count(), 0, 'Removed hero labels');
+    console.log(`PASS: five viewports, WCAG A/AA automated audits, scenario integrity, source data parity, filters, keyboard tabs, reduced motion, forced colors, 200% zoom equivalent, no external requests. HTML: ${html.length} bytes.`);
+  } finally {
+    await browser.close();
+    server.close();
+  }
+})().catch(error => {console.error(error);process.exitCode=1});

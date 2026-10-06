@@ -1,343 +1,182 @@
-<title>Recap Within the Hour</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="140 calls. Four pods. One clear fix. An interactive Ironside case study on getting client recaps posted within the hour.">
+<meta name="theme-color" content="#f4f3eb">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%2320281e%27/%3E%3Cpath d=%27M8 23l4-14h4l-4 14zm8 0l4-14h4l-4 14z%27 fill=%27%23d2f969%27/%3E%3C/svg%3E">
+<title>The recap is ready. The client is waiting. | Ironside</title>
 <style>
-/* Layout: one calm reading column, with the 140-call timeline as the single loud moment. Everything else is quiet. */
-:root{
-  --bg:#F2F5F8; --surface:#FFFFFF; --ink:#0D1A26; --muted:#566878; --line:#D3DBE3; --wash:#E8EDF2;
-  --am:#0A8A6E; --agent:#2A4FD6; --bad:#D6402B; --bad-wash:#FBE9E5; --good-wash:#E2F4EE; --late-zone:#FBEFEC;
-  --f-display:'Bricolage Grotesque','Hanken Grotesk',system-ui,sans-serif;
-  --f-body:'Hanken Grotesk',system-ui,-apple-system,'Segoe UI',sans-serif;
-  --f-mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
-}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#09131B; --surface:#101E29; --ink:#E7EEF4; --muted:#92A4B3; --line:#223442; --wash:#16273A;
-  --am:#3DCBA5; --agent:#7D96FF; --bad:#FF7B66; --bad-wash:#3A1D1A; --good-wash:#12332B; --late-zone:#2A1A1B; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#09131B; --surface:#101E29; --ink:#E7EEF4; --muted:#92A4B3; --line:#223442; --wash:#16273A;
-  --am:#3DCBA5; --agent:#7D96FF; --bad:#FF7B66; --bad-wash:#3A1D1A; --good-wash:#12332B; --late-zone:#2A1A1B; color-scheme:dark}
-
-*{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--f-body);padding-inline:clamp(16px,4vw,48px);padding-block:0 96px;-webkit-font-smoothing:antialiased}
-.wrap{max-width:1080px;margin-inline:auto}
-h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;letter-spacing:-.02em}
-p{margin:0}
-a{color:var(--agent);text-underline-offset:3px}
-a:focus-visible,button:focus-visible{outline:3px solid var(--agent);outline-offset:3px;border-radius:4px}
-.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
-.eyebrow{font:600 12px/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-
-/* masthead */
-.mast{padding-block:56px 40px;display:grid;gap:20px}
-.mast h1{font-size:clamp(40px,7.4vw,84px);line-height:.95;font-weight:800}
-.mast h1 em{font-style:normal;color:var(--bad)}
-.lede{font-size:clamp(18px,2.2vw,21px);max-width:62ch;color:var(--muted)}
-.lede b{color:var(--ink);font-weight:600}
-.meta{display:flex;flex-wrap:wrap;gap:8px 20px;font:500 13px/1.4 var(--f-mono);color:var(--muted)}
-
-/* timeline hero */
-.stage{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:clamp(16px,3vw,32px);display:grid;gap:18px}
-.stage-head{display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-between;align-items:end}
-.stage-head h2{font-size:clamp(22px,3vw,30px);line-height:1.1}
-.legend{display:flex;flex-wrap:wrap;gap:8px 18px;font:500 13px/1 var(--f-mono);color:var(--muted)}
-.legend i{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:7px;vertical-align:-1px}
-.legend .ring{background:none;border:1.5px solid var(--muted)}
-#plot{width:100%;min-width:0}
-#plot svg{display:block;width:100%;height:auto;overflow:visible}
-.note{font-size:14px;color:var(--muted);max-width:80ch}
-
-/* sections */
-section{padding-top:88px;display:grid;gap:28px}
-.sec-head{display:grid;gap:10px;max-width:760px}
-.sec-head h2{font-size:clamp(28px,4.4vw,46px);line-height:1.02;font-weight:700}
-.sec-head p{color:var(--muted);font-size:18px}
-.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
-.fact{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px;display:grid;gap:10px;align-content:start;min-width:0}
-.fact .big{font:800 clamp(40px,5vw,56px)/1 var(--f-display);letter-spacing:-.03em}
-.fact h3{font-size:19px;line-height:1.25;font-weight:600;letter-spacing:-.01em}
-.fact p{color:var(--muted);font-size:15px}
-
-/* decomposition */
-.split{background:var(--surface);border:1px solid var(--line);border-radius:20px;overflow:hidden}
-.split-row{display:grid;grid-template-columns:92px 1fr 1fr 84px;gap:18px;align-items:center;padding:18px clamp(16px,3vw,28px);border-top:1px solid var(--line)}
-.split-row:first-child{border-top:0}
-.split-row.head{font:600 11.5px/1.3 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:var(--wash)}
-.pod{font:700 18px/1 var(--f-display)}
-.pod small{display:block;font:500 12px/1.3 var(--f-body);color:var(--muted);margin-top:4px}
-.bar{display:grid;gap:6px;min-width:0}
-.bar .track{height:12px;border-radius:6px;background:var(--wash);overflow:hidden}
-.bar .fill{height:100%;border-radius:6px;background:var(--agent)}
-.bar .fill.low{background:var(--bad)}
-.bar span{font:500 13px/1 var(--f-mono)}
-.result{font:800 26px/1 var(--f-display);text-align:right}
-.result.fail{color:var(--bad)}
-.focus{background:var(--late-zone)}
-@media (max-width:640px){
-  .split-row{grid-template-columns:1fr 1fr;gap:12px 16px}
-  .split-row.head{display:none}
-  .split-row .pod{grid-column:1}.split-row .result{grid-column:2}
-  .split-row .bar{grid-column:span 1}
-}
-
-/* recap compare */
-.compare{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:16px}
-.doc{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:clamp(18px,3vw,28px);display:grid;gap:14px;align-content:start;min-width:0}
-.doc .tag{font:600 12px/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;padding:6px 10px;border-radius:999px;width:max-content}
-.tag.before{background:var(--bad-wash);color:var(--bad)}
-.tag.after{background:var(--good-wash);color:var(--am)}
-.doc h3{font-size:20px;font-weight:700}
-.doc p,.doc li{font-size:15px;line-height:1.65}
-.doc ul{margin:0;padding-left:18px;display:grid;gap:6px}
-mark{background:var(--bad-wash);color:var(--ink);border-radius:4px;padding:1px 4px;box-shadow:inset 0 -2px 0 var(--bad)}
-mark sup{font:700 10px/1 var(--f-mono);color:var(--bad);margin-left:3px}
-.issues{display:grid;gap:8px;font-size:14px;color:var(--muted);margin:0;padding:0;list-style:none;border-top:1px dashed var(--line);padding-top:14px}
-.issues li{display:grid;grid-template-columns:22px 1fr;gap:8px}
-.issues b{font:700 11px/1.7 var(--f-mono);color:var(--bad)}
-.tbl{overflow-x:auto}
-table{border-collapse:collapse;width:100%;font-size:14px}
-th{font:600 11px/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
-td{padding:10px;border-bottom:1px solid var(--line);vertical-align:top}
-.ok{color:var(--am);font-weight:600}
-
-/* plan */
-.week{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:12px}
-.day{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;display:grid;gap:8px;align-content:start}
-.day b{font:700 12px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--agent)}
-.day p{font-size:14.5px;line-height:1.5}
-.day.fri{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-.day.fri b{color:var(--bg);opacity:.7}
-.msg{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--agent);border-radius:14px;padding:clamp(18px,3vw,28px);display:grid;gap:12px;max-width:760px}
-.msg p{font-size:17px;line-height:1.6}
-.msg .to{font:600 12px/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:16px}
-.q{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px;display:grid;gap:8px;align-content:start}
-.q h3{font-size:18px;font-weight:600;letter-spacing:-.01em}
-.q p{font-size:15px;color:var(--muted)}
-.q ul{margin:0;padding-left:18px;color:var(--muted);font-size:15px;display:grid;gap:6px}
-.target{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 20px;padding:24px clamp(18px,3vw,32px);background:var(--ink);color:var(--bg);border-radius:20px}
-.target .n{font:800 clamp(52px,9vw,96px)/.9 var(--f-display);letter-spacing:-.04em}
-.target .from{font:500 14px/1.4 var(--f-mono);opacity:.75}
-.target p{flex:1 1 280px;font-size:16px;opacity:.9}
-
-/* files */
-.files{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:10px}
-.file{display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:center;padding:14px 16px;background:var(--surface);border:1px solid var(--line);border-radius:12px;text-decoration:none;color:var(--ink);min-width:0}
-.file:hover{border-color:var(--agent)}
-.file i{font:700 12px/1 var(--f-mono);font-style:normal;background:var(--wash);color:var(--muted);border-radius:8px;padding:10px 0;text-align:center}
-.file b{display:block;font:600 15px/1.3 var(--f-body)}
-.file span{font-size:13px;color:var(--muted)}
-footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px 28px;font:500 13px/1.5 var(--f-mono);color:var(--muted)}
-@media (prefers-reduced-motion:no-preference){.dot{transition:opacity .15s}}
+:root{--paper:#f4f3eb;--ink:#20241e;--muted:#5d6358;--line:#d5d8cc;--green:#d2f969;--dark:#20281e;--dim:#b9c3b2;--violet:#bca9ff;--red:#f5aa90;--white:#fff;--body:Arial,Helvetica,sans-serif;--mono:ui-monospace,SFMono-Regular,Consolas,monospace}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:24px}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.5 var(--body);-webkit-font-smoothing:antialiased}button,a,input,summary{-webkit-tap-highlight-color:transparent}button,input{font:inherit}button{cursor:pointer}a{color:inherit;text-underline-offset:5px}button{color:inherit}button:focus-visible,a:focus-visible,summary:focus-visible,input:focus-visible,[tabindex]:focus-visible{outline:3px solid #6941c6;outline-offset:5px}.evidence :focus-visible{outline-color:var(--green)}button:disabled{cursor:default}h1,h2,h3,p{margin:0}h1,h2,h3{text-wrap:balance}h1,h2{font-weight:600;letter-spacing:-.065em;line-height:1.02}h3{letter-spacing:-.03em}::selection{background:var(--green);color:var(--ink)}.shell{width:min(1320px,calc(100% - 96px));margin:auto}.eyebrow{font:600 11px/1.5 var(--mono);letter-spacing:.12em;text-transform:uppercase}.skip{position:fixed;top:12px;left:12px;padding:12px 20px;background:var(--ink);color:white;z-index:20;transform:translateY(-200%)}.skip:focus{transform:none}.mast{height:96px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}.brand{text-decoration:none;display:flex;align-items:center;gap:12px;font-weight:800;font-size:23px;letter-spacing:-.055em}.brand-symbol{display:flex;align-items:end;gap:3px;height:22px;transform:skew(-15deg)}.brand-symbol i{width:6px;background:var(--ink);height:15px}.brand-symbol i:nth-child(2){height:22px}.brand-symbol i:nth-child(3){height:18px}.mast nav{display:flex;align-items:center;gap:28px;font-size:13px;font-weight:600}.mast nav a{text-decoration:none;padding:12px 0}.mast nav a:hover{text-decoration:underline}.hero{padding:65px 0 64px}.hero-grid{display:grid;grid-template-columns:1fr 300px;gap:64px;align-items:end;margin-top:0}.hero h1{font-size:clamp(50px,5.9vw,84px);max-width:920px}.hero h1 span{color:#667058}.hero-copy{max-width:500px;font-size:18px;line-height:1.55;margin-top:27px;color:var(--muted)}.hero-copy strong{color:var(--ink);font-weight:600}.hero-actions{display:flex;align-items:center;flex-wrap:wrap;gap:20px;margin-top:28px}.primary{display:inline-flex;align-items:center;gap:30px;background:var(--ink);color:var(--paper);text-decoration:none;border:1px solid var(--ink);padding:15px 22px;border-radius:4px;font-size:14px;font-weight:600;min-height:48px}.primary:hover{background:#3d4a32}.text-link{font-size:13px;font-weight:600;padding:12px 0}.hero-card{border-left:1px solid var(--line);padding-left:32px;padding-bottom:4px}.hero-card .eyebrow{color:var(--muted)}.hero-number{font-size:100px;line-height:1;letter-spacing:-.08em;font-weight:600;margin:18px 0 5px}.hero-number{display:flex;align-items:baseline;gap:.06em}.hero-number small{font-size:50px;letter-spacing:-.03em}.hero-card p{font-size:14px;color:var(--muted)}.mini-track{position:relative;height:6px;background:var(--line);margin:24px 0 12px}.mini-track:after{content:'';position:absolute;left:80%;height:14px;top:-4px;width:2px;background:var(--ink)}.mini-fill{height:100%;width:35%;background:#667b42;transition:width .4s}.target-label{display:flex;justify-content:space-between;font:11px var(--mono);color:var(--muted)}
+.evidence{background:var(--dark);color:var(--paper);border-radius:8px;padding:36px 40px 28px;scroll-margin-top:24px;position:relative;overflow:hidden}.evidence-head{display:flex;justify-content:space-between;gap:24px;align-items:start}.evidence .eyebrow{color:var(--dim)}.evidence h2{font-size:36px;letter-spacing:-.045em;margin-top:10px}.view-switch{display:flex;border:1px solid #65705d;border-radius:5px;padding:4px;gap:4px;flex-shrink:0}.view-switch button{border:0;background:transparent;color:var(--dim);padding:11px 16px;border-radius:3px;font-size:12px;font-weight:600;min-height:44px}.view-switch button[aria-pressed=true]{background:var(--green);color:var(--dark)}.chart-top{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:30px 0 15px;padding-top:24px;border-top:1px solid #46513f}.legend{display:flex;gap:6px;flex-wrap:wrap}.legend button{display:flex;align-items:center;gap:7px;border:1px solid transparent;background:transparent;color:var(--dim);border-radius:4px;padding:8px 10px;min-height:44px;font-size:11px}.legend button[aria-pressed=true]{border-color:#65705d;color:var(--paper)}.legend i{width:8px;height:8px;border-radius:50%;background:var(--green)}.legend .agent-dot{background:var(--violet)}.chart-hint{font:10px var(--mono);color:var(--dim)}.chart-header,.plot-row{display:grid;grid-template-columns:145px minmax(0,1fr) 115px;gap:20px}.chart-header{font:10px var(--mono);color:var(--dim);margin-bottom:8px}.chart-header span:last-child{text-align:center}.plot-row{align-items:center;border-top:1px solid #46513f;min-height:91px}.pod-label{display:flex;justify-content:space-between;align-items:center;gap:10px}.pod-label h3{font-size:15px;letter-spacing:0;font-weight:500}.pod-label small{font:10px var(--mono);color:var(--dim);display:block;margin-top:4px}.pod-rate{font:500 23px/1 var(--mono);letter-spacing:-.07em}.pod-rate.met{color:var(--green)}.pod-label .focus-label{color:var(--green)}.plot-row svg{display:block;width:100%;height:78px;overflow:visible}.missing{display:grid;grid-template-columns:repeat(7,8px);gap:5px;justify-content:center}.missing i{display:block;width:8px;height:8px;border:1px solid var(--dim);border-radius:50%}.missing i.lost{background:var(--red);border-color:var(--red)}.plot-axis{display:grid;grid-template-columns:145px minmax(0,1fr) 115px;gap:20px;margin-top:4px}.axis-scale{display:flex;justify-content:space-between;color:var(--dim);font:10px var(--mono)}.axis-scale .limit{color:var(--green)}.chart-caption{display:flex;justify-content:space-between;align-items:start;gap:20px;margin-top:27px;padding-top:20px;border-top:1px solid #46513f}.chart-caption p{font-size:13px;color:var(--dim);max-width:670px}.chart-caption strong{color:var(--paper);font-weight:500}.chart-caption a{flex-shrink:0;font-size:12px;color:var(--green);padding:8px 0}.scenario-note{font:11px/1.6 var(--mono);color:var(--green);margin:18px 0 0;min-height:36px;max-width:800px}.readout{display:flex;align-items:center;gap:9px;background:#303c29;border-radius:3px;padding:6px 10px;font:10px var(--mono);color:var(--green)}.readout i{width:5px;height:5px;background:var(--green);border-radius:50%}
+.section{padding:88px 0;border-bottom:1px solid var(--line)}.section-title{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:end;margin:20px 0 40px}.section-title h2{font-size:clamp(38px,4.5vw,60px)}.section-title p{max-width:380px;font-size:16px;color:var(--muted);justify-self:end}.insights{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}.insight{border-top:1px solid var(--line);padding-top:20px}.insight-number{font-size:66px;font-weight:500;letter-spacing:-.07em;line-height:1.1;margin-bottom:18px}.insight-number small{font:12px var(--mono);letter-spacing:0;margin-left:8px}.insight h3{font-size:20px;margin-bottom:10px}.insight p{max-width:300px;color:var(--muted);font-size:14px}.insight .index{font:10px var(--mono);color:var(--muted);display:block;margin-top:24px}.review-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:80px;align-items:start}.review-intro h2{font-size:clamp(38px,4vw,54px);margin:20px 0}.review-intro p{font-size:16px;color:var(--muted);max-width:340px}.checks{list-style:none;margin:28px 0 20px;padding:0;display:grid;gap:12px;font-size:13px}.checks li{display:flex;gap:10px}.checks span{font:600 11px var(--mono);color:#3d5824;display:inline-flex;background:#e2ead6;border-radius:50%;width:18px;height:18px;justify-content:center;align-items:center;flex-shrink:0}.review-card{border:1px solid var(--line);background:#fbfcf6;border-radius:6px;box-shadow:0 16px 40px #20241e08}.review-bar{display:flex;justify-content:space-between;align-items:center;gap:16px;border-bottom:1px solid var(--line);padding:18px 22px}.review-bar .eyebrow{color:var(--muted);font-size:10px}.tabs{display:flex;gap:4px}.tabs button{background:transparent;border:0;padding:10px 14px;min-height:44px;border-radius:3px;font-size:12px;color:var(--muted)}.tabs button[aria-selected=true]{background:var(--ink);color:white}.review-body{padding:30px;min-height:305px}.review-body h3{font-size:23px;margin-bottom:18px}.review-body p{font-size:14px;line-height:1.7}.review-body ul{padding-left:18px;font-size:14px;display:grid;gap:8px}.review-body mark{background:#f5dfd4;color:#643519;padding:2px 4px;border-radius:2px}.action{margin-top:24px;border-top:1px solid var(--line);padding-top:18px;display:grid;grid-template-columns:1fr auto;gap:15px}.action p{font-size:13px}.action strong{display:block}.action time{font:11px var(--mono);align-self:center}.doc-note{padding:16px 24px;background:#e7edde;font:11px/1.6 var(--mono);border-top:1px solid var(--line);color:#384b28;border-radius:0 0 6px 6px}.doc-note.warn{background:#f5dfd4;color:#643519}.review-intro a{font-size:12px}.plan-layout{display:grid;grid-template-columns:1fr 1fr;gap:64px}.plan-tabs{display:grid;grid-template-columns:repeat(5,1fr);border-bottom:1px solid var(--line);gap:8px}.plan-tabs button{border:0;background:transparent;font:12px var(--mono);min-height:54px;position:relative}.plan-tabs button[aria-selected=true]{font-weight:700}.plan-tabs button[aria-selected=true]:after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:3px;background:var(--ink)}.plan-panel{padding:28px 0 10px;min-height:190px}.plan-panel .eyebrow{color:var(--muted);margin-bottom:12px}.plan-panel h3{font-size:26px;margin-bottom:12px}.plan-panel p{font-size:15px;color:var(--muted);max-width:450px}.goal-card{background:var(--green);padding:32px;border-radius:6px;position:relative;overflow:hidden}.goal-card .goal-number{font-size:100px;line-height:1;letter-spacing:-.08em;margin:20px 0 14px}.goal-card .goal-number{display:flex;align-items:baseline;gap:.06em}.goal-card .goal-number small{font-size:55px;letter-spacing:-.03em}.goal-card p{font-size:15px;max-width:360px}.goal-card a{display:inline-block;margin-top:22px;font-size:12px;font-weight:600}.details-group{margin-top:32px}details{border-top:1px solid var(--line)}details:last-child{border-bottom:1px solid var(--line)}summary{cursor:pointer;font-weight:600;font-size:14px;min-height:60px;padding:18px 0;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px}summary::-webkit-details-marker{display:none}summary:after{content:'+';font:22px var(--mono);flex-shrink:0}details[open]>summary:after{content:'−'}details>p{color:var(--muted);font-size:14px;max-width:650px;padding:0 0 24px}.files-head{display:flex;justify-content:space-between;align-items:end;gap:24px;margin:18px 0 32px}.files-head h2{font-size:clamp(38px,4vw,54px)}.files-head>a{font-size:12px;font-weight:600}.files-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0 32px}.file{display:flex;align-items:center;gap:18px;padding:24px 0;text-decoration:none;border-top:1px solid var(--line);min-width:0}.file .file-index{font:11px var(--mono);color:var(--muted);flex-shrink:0}.file strong{display:block;font-size:14px;font-weight:600}.file small{display:block;color:var(--muted);font-size:12px;margin-top:4px}.file .file:hover strong{text-decoration:underline;text-underline-offset:5px}.files .section{border:0}.footer{padding:30px 0 40px;display:flex;justify-content:space-between;gap:16px;align-items:center;color:var(--muted);font:10px/1.6 var(--mono)}.footer .brand{font:800 18px var(--body);color:var(--ink)}.data-section{padding:0 0 50px}.data-section details{border:1px solid var(--line);border-radius:4px;padding:0 20px}.data-section .table-wrap{overflow-x:auto;max-height:450px;border:1px solid var(--line);margin-bottom:20px}.data-section table{width:100%;border-collapse:collapse;font-size:12px;text-align:left;white-space:nowrap}.data-section th,.data-section td{padding:12px 14px;border-bottom:1px solid var(--line)}.data-section th{position:sticky;top:0;background:var(--paper);font-weight:600}.data-section caption{text-align:left;padding:15px 14px;color:var(--muted)}.data-filters{display:flex;gap:8px;flex-wrap:wrap;padding:0 0 20px}.data-filters button{border:1px solid var(--line);background:transparent;padding:10px 16px;border-radius:4px;font-size:12px;min-height:44px}.data-filters button[aria-pressed=true]{background:var(--ink);color:white;border-color:var(--ink)}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}[hidden]{display:none!important}
+@media(min-width:1600px){.hero h1{font-size:88px}}@media(max-width:1100px){.shell{width:calc(100% - 64px)}.hero-grid{gap:32px;grid-template-columns:1fr 240px}.hero-card{padding-left:24px}.hero-number{font-size:85px}.evidence{padding:28px}.chart-header,.plot-row,.plot-axis{grid-template-columns:120px minmax(0,1fr) 95px;gap:14px}.review-layout{gap:40px}.view-switch button{padding:11px}.hero h1{font-size:clamp(48px,6.5vw,72px)}}
+@media(max-width:760px){.shell{width:calc(100% - 40px)}.mast{height:76px}.mast nav{gap:18px;font-size:12px}.brand{font-size:20px}.hero{padding:38px 0 36px}.hero-grid{grid-template-columns:1fr;margin-top:0;gap:30px}.hero h1{font-size:clamp(43px,8.5vw,66px)}.hero-copy{font-size:16px;margin-top:20px}.hero-card{border-left:0;border-top:1px solid var(--line);padding:20px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:4px 20px;align-items:center}.hero-card .eyebrow{grid-column:1}.hero-number{grid-column:2;grid-row:1/4;font-size:70px;justify-content:flex-end;margin:0}.hero-number small{font-size:35px}.hero-card>p{grid-column:1}.mini-track,.target-label{display:none}.evidence{padding:24px 18px;border-radius:5px}.evidence-head{flex-direction:column;gap:20px}.evidence h2{font-size:31px}.view-switch{width:100%}.view-switch button{flex:1}.chart-top{flex-direction:column;align-items:start;gap:8px;margin-top:22px;padding-top:15px}.chart-hint{padding-left:10px}.chart-header{display:none}.plot-row{grid-template-columns:minmax(0,1fr) 64px;gap:0 12px;padding:16px 0 10px}.pod-label{grid-column:1/-1;margin-bottom:5px}.pod-label small{display:inline;margin-left:10px}.pod-rate{font-size:20px}.plot-row svg{height:76px}.missing{grid-template-columns:repeat(5,7px);gap:4px}.missing i{width:7px;height:7px}.plot-axis{grid-template-columns:minmax(0,1fr) 64px;gap:12px}.plot-axis>span:first-child{display:none}.plot-axis>span:last-child{font:9px var(--mono);color:var(--dim);text-align:center}.chart-caption{flex-direction:column;gap:8px;margin-top:24px}.chart-caption p{font-size:12px}.scenario-note{font-size:10px;min-height:48px}.section{padding:56px 0}.section-title{grid-template-columns:1fr;gap:18px;margin-bottom:30px}.section-title p{justify-self:start;max-width:460px;font-size:15px}.section-title h2{font-size:43px}.insights{gap:24px;grid-template-columns:1fr}.insight{display:grid;grid-template-columns:115px 1fr;gap:5px 20px}.insight-number{grid-row:1/4;font-size:54px;margin:0}.insight-number small{display:block;margin:6px 0 0}.insight h3{font-size:19px;margin:0}.insight p{max-width:100%;font-size:13px}.insight .index{margin-top:10px}.review-layout{grid-template-columns:1fr;gap:30px}.review-intro p{max-width:480px}.checks{margin:20px 0}.review-body{padding:24px;min-height:320px}.review-bar{padding:14px 18px}.review-bar .eyebrow{max-width:110px}.plan-layout{grid-template-columns:1fr;gap:24px}.plan-panel{min-height:180px}.goal-card{padding:26px}.goal-card .goal-number{font-size:85px}.files-head{align-items:start;flex-direction:column;gap:18px}.files-grid{grid-template-columns:1fr}.file{padding:20px 0}.footer{align-items:start;flex-direction:column;padding-bottom:28px}.data-section{padding-bottom:30px}.readout{display:none}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}@media(forced-colors:active){.mini-fill,.missing i,.legend i,.plot-row circle{fill:CanvasText;stroke:CanvasText}.plot-row line{stroke:CanvasText}.view-switch button[aria-pressed=true],.tabs button[aria-selected=true],.data-filters button[aria-pressed=true]{outline:2px solid Highlight}.checks span{border:1px solid CanvasText}}@media print{.shell{width:100%}.mast nav,.hero-actions,.view-switch,.legend,.data-section,.footer{display:none}.evidence{print-color-adjust:exact}.section{padding:35px 0}.hero{padding:30px 0}.plan-layout,.review-layout{gap:30px}}
 </style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="shell">
+<header class="mast">
+<a class="brand" href="#main" aria-label="Ironside, back to top"><span class="brand-symbol" aria-hidden="true"><i></i><i></i><i></i></span>IRONSIDE</a>
 
-<div class="wrap">
-  <header class="mast">
-    <div class="eyebrow">Ironside Biz Ops case study · Brightline recap step · 2 Oct 2026</div>
-    <h1>Recap within the <em>hour</em></h1>
-    <p class="lede">Target: 80% of client calls get a recap inside 60 minutes, in every pod, by 31 October. Only North is there. <b>South is the pod to fix first</b>, because the recaps already exist and arrive late. Below is the evidence, the fix for the agent, and a one-week plan.</p>
-    <div class="meta"><span>140 calls · 1 to 24 Sep</span><span>4 pods</span><span>All numbers recomputed from calls.csv</span></div>
-  </header>
+<nav aria-label="Main"><a href="#evidence">Evidence</a><a href="#plan">Plan</a><a href="#files">Files</a></nav>
+</header>
+<main id="main" tabindex="-1">
+<section class="hero" aria-labelledby="hero-title">
 
-  <div class="stage" aria-labelledby="hero-title">
-    <div class="stage-head">
-      <div class="eyebrow" id="hero-title">Every call, by minutes until its recap was posted</div>
-      <div class="legend">
-        <span><i style="background:var(--am)"></i>Posted by the AM</span>
-        <span><i style="background:var(--agent)"></i>Posted by the agent</span>
-        <span><i class="ring"></i>No recording</span>
-        <span><i style="background:var(--bad)"></i>Recorded, never posted</span>
-      </div>
-    </div>
-    <div id="plot" role="img" aria-label="Strip plot of recap delay per call for each pod. Account managers post within 28 minutes. The agent posts between 45 and 91 minutes. North 90 percent on time, East 70, South 35, West 10."></div>
-    <p class="note">Each dot is one call. Left of the red line is on time. The agent never posted faster than 45 minutes in any pod. When an account manager posts, it is on time every time (45 of 45, median 18 minutes).</p>
-  </div>
-
-  <section>
-    <div class="sec-head">
-      <div class="eyebrow">Block B · Move the number</div>
-      <h2>Three things the data says</h2>
-    </div>
-    <div class="grid3">
-      <div class="fact"><div class="big" style="color:var(--bad)">70%</div><h3>East is not 75%</h3><p>The dashboard divides 21 by the 28 recorded calls. Every other pod divides by all calls held. On the same basis East is 21 of 30.</p></div>
-      <div class="fact"><div class="big" style="color:var(--am)">18 min</div><h3>A person posts four times faster</h3><p>Median 18 minutes for AM-posted recaps, never late. The agent's median is 65 and only 29 of its 59 recaps landed inside the hour.</p></div>
-      <div class="fact"><div class="big">0 of 36</div><h3>South posts nothing itself</h3><p>North's AMs posted 33 of 38. South's two recorded Kettle &amp; Crumb calls from 22 and 24 Sep got no recap at all.</p></div>
-    </div>
-  </section>
-
-  <section>
-    <div class="sec-head">
-      <h2>Two different gaps, so two different fixes</h2>
-      <p>Share on time is recording rate times on-time rate. West loses at the first step, South at the second. South is the one that moves this week.</p>
-    </div>
-    <div class="split" role="table" aria-label="Recorded share and on-time share by pod">
-      <div class="split-row head" role="row"><span>Pod</span><span>Calls recorded</span><span>On time, of those recorded</span><span style="text-align:right">Share</span></div>
-      <div class="split-row" role="row"><div class="pod">North<small>Sam Whitaker</small></div><div class="bar"><div class="track"><div class="fill" style="width:95%"></div></div><span>95%</span></div><div class="bar"><div class="track"><div class="fill" style="width:95%"></div></div><span>95%</span></div><div class="result">90%</div></div>
-      <div class="split-row" role="row"><div class="pod">East<small>Aisha Rahman</small></div><div class="bar"><div class="track"><div class="fill" style="width:93%"></div></div><span>93%</span></div><div class="bar"><div class="track"><div class="fill" style="width:75%"></div></div><span>75%</span></div><div class="result fail">70%</div></div>
-      <div class="split-row focus" role="row"><div class="pod">South<small>Marcus Obi · first</small></div><div class="bar"><div class="track"><div class="fill" style="width:90%"></div></div><span>90%</span></div><div class="bar"><div class="track"><div class="fill low" style="width:39%"></div></div><span>39%</span></div><div class="result fail">35%</div></div>
-      <div class="split-row" role="row"><div class="pod">West<small>Lena Varga</small></div><div class="bar"><div class="track"><div class="fill low" style="width:13%"></div></div><span>13%</span></div><div class="bar"><div class="track"><div class="fill" style="width:75%"></div></div><span>75%</span></div><div class="result fail">10%</div></div>
-    </div>
-    <p class="note">West's gap is capture: 26 of 30 calls were on WhatsApp, so nothing reached the agent. Fixing that needs a tool or a client change, and Lena is already on it. South already has 34 recaps for 36 recorded calls. If all 34 landed inside the hour, South would sit at 85%.</p>
-  </section>
-
-  <section>
-    <div class="sec-head">
-      <div class="eyebrow">Block C · Train the agent</div>
-      <h2>The recap that reached a client channel</h2>
-      <p>Last week's agent recap of a Loop Athletic call, marked up against its transcript and the brain's rules, next to the same call after the skill rewrite, run in a fresh session that saw only the skill, the brain and the transcript.</p>
-    </div>
-    <div class="compare">
-      <article class="doc">
-        <span class="tag before">Before</span>
-        <h3>Loop Athletic weekly, 15 Sep</h3>
-        <p><mark>Great call with Theo.<sup>1</sup></mark> All 12 fall videos were delivered and the try-on format is performing much better. Loop Athletic is at <mark>$95K GMV<sup>2</sup></mark> this month. Theo wants 12 more videos for October, all try-on. There's a size chart issue on the product page. <mark>Theo's CEO is frustrated with the agency fees and might put us up for review in Q1.<sup>3</sup></mark></p>
-        <ul><li>Send the October brief<sup style="color:var(--bad);font:700 10px var(--f-mono)"> 4</sup></li><li><mark>Keep an eye on the account review risk<sup>5</sup></mark></li></ul>
-        <ol class="issues">
-          <li><b>1</b><span>Mood, not facts.</span></li>
-          <li><b>2</b><span>Typed performance number. It also disagrees with the sheet and nothing flagged it.</span></li>
-          <li><b>3</b><span>From a private message pasted after the client left the call. Breaks the private and commercial-terms rules.</span></li>
-          <li><b>4</b><span>No owner and no due date. The transcript gives both: Lena, Friday 18 Sep.</span></li>
-          <li><b>5</b><span>Nobody committed to this. The leak is now in the action list too.</span></li>
-        </ol>
-      </article>
-      <article class="doc">
-        <span class="tag after">After</span>
-        <h3>Loop Athletic: weekly</h3>
-        <ul>
-          <li>All 12 fall videos delivered. The last four are try-on, as decided on 10 Sep.</li>
-          <li>Theo said the try-on videos perform better than the earlier ones.</li>
-          <li>Decision: an October batch of 12 more, all try-on.</li>
-          <li>GMV mentioned on the call. See the sheet, row <span class="mono">loop-athletic</span>.</li>
-        </ul>
-        <div class="tbl"><table><thead><tr><th>Owner</th><th>Action</th><th>Due</th></tr></thead><tbody><tr><td>Lena Varga</td><td>Send Theo the October brief</td><td class="mono">2026-09-18</td></tr></tbody></table></div>
-        <p style="font-size:14px"><b>Open question.</b> Size chart issue: no owner or date was agreed.</p>
-        <p style="font-size:14px"><b>Flags.</b> The call's GMV does not match the sheet and is not copied. Content after the client left the call was held back.</p>
-        <p class="ok" style="font-size:14px">Passes the linter in <span class="mono">extra/</span>. The old recap fails it with 10 problems.</p>
-      </article>
-    </div>
-    <p class="note">The old skill told the agent to "include everything relevant so nothing gets lost" and to "include the key numbers". The new one defines where a call ends, forbids typed performance numbers, requires one owner and a date per action, and ends with a checklist before saving.</p>
-  </section>
-
-  <section>
-    <div class="sec-head">
-      <div class="eyebrow">B3 · One week for South</div>
-      <h2>Move the email into the channel</h2>
-      <p>The content was never the complaint. The agent just arrives after Marcus has already sent his own summary. The plan lets his summary be the recap.</p>
-    </div>
-    <div class="msg">
-      <div class="to">To Marcus Obi · Mon 5 Oct</div>
-      <p>You were right in #pod-south: the bot posts 45 to 90 min after the call (South median is 74), so your own notes win. When an AM posts, it takes 18 min and is never late.</p>
-      <p>This week, post the summary you'd email Dana in the client channel instead, same text, with an owner and a date on each action. That counts as the recap, so there's no double work.</p>
-    </div>
-    <div class="week">
-      <div class="day"><b>Mon</b><p>30 min with Sam to see how North posts in 18 minutes. Then 30 min with Marcus to set it up. Fix the East dashboard formula.</p></div>
-      <div class="day"><b>Tue</b><p>Same-day check of every South call in calls.csv. Backfill the two missing Kettle &amp; Crumb recaps.</p></div>
-      <div class="day"><b>Wed</b><p>One-page evidence to Priya, so the target is agreed before anyone changes how it is counted.</p></div>
-      <div class="day"><b>Thu</b><p>Ask once for any recap that is late. Collect what the bot got wrong for the skill.</p></div>
-      <div class="day fri"><b>Fri</b><p>Report the number from calls.csv only. Send engineering the evidence ticket.</p></div>
-    </div>
-    <div class="target">
-      <div class="n">70%</div>
-      <div class="from">from 35%<br>7 of 10 calls</div>
-      <p>Expected South share by Friday 9 Oct. About 1 call in 10 is a phone call that cannot be recorded, so 90% is the ceiling for now. Not promising 80% in week one: it is a habit change for two people.</p>
-    </div>
-    <div class="two">
-      <div class="q"><h3>What Marcus will push back with</h3>
-        <ul>
-          <li><b>"I already send the client a summary."</b> The post replaces the email. About three extra minutes for owners and dates.</li>
-          <li><b>"Priya said count emailed summaries."</b> Emails are not logged, so nobody can audit the number. The same text posted in the channel counts.</li>
-          <li><b>"Make the bot faster."</b> Agreed, it is in the ticket. Its fastest run is 45 minutes, so the AM post stays the reliable path.</li>
-        </ul></div>
-      <div class="q"><h3>What keeps it going after I leave</h3>
-        <ul>
-          <li>The bot's draft arrives in 15 minutes, so the AM edits instead of writes.</li>
-          <li>Marcus owns the number. The dashboard is posted in #pod-south every Monday. Tomas is the backup poster.</li>
-          <li>A linter checks owners, dates, typed numbers and the never-list before anything posts.</li>
-          <li>A same-day alert when a recorded call has no recap.</li>
-        </ul></div>
-    </div>
-  </section>
-
-  <section>
-    <div class="sec-head">
-      <div class="eyebrow">C3 · For the engineer who builds the agent</div>
-      <h2>What a skill file cannot fix</h2>
-    </div>
-    <div class="grid3">
-      <div class="fact"><div class="big" style="color:var(--agent)">45 to 91</div><h3>Minutes until the agent posts</h3><p>Median 65 over 59 recaps. South's median is 74, others 55 to 59, and call load and time of day do not explain it. Trace where the minutes go. Target: 90% within 20 minutes, plus an on-demand run.</p></div>
-      <div class="fact"><div class="big" style="color:var(--bad)">2</div><h3>Recorded calls with no recap</h3><p>Both Kettle &amp; Crumb, both silent. Alert the same day.</p></div>
-      <div class="fact"><div class="big">1</div><h3>Hard gate in code</h3><p>Cut the transcript where the client leaves. Block posting unless every action has an owner and a date and no performance number is typed.</p></div>
-    </div>
-  </section>
-
-  <section>
-    <div class="sec-head">
-      <div class="eyebrow">Block A · Do the work</div>
-      <h2>The deliverables</h2>
-      <p>Two recaps follow the brain's template and rules. Dana's GMV claim is flagged against the sheet instead of copied, and everything said after she left the 22 Sep call stays out. Page edits are proposed, not made.</p>
-    </div>
-    <div class="files">
-      <a class="file" href="https://github.com/utkuacikgoz/ironside/blob/main/brain/knowledge/meetings/2026-09-22-kettle-and-crumb-weekly.md"><i>A1</i><div><b>Recap, 22 Sep weekly</b><span>Six actions, each with one owner and a date</span></div></a>
-      <a class="file" href="https://github.com/utkuacikgoz/ironside/blob/main/brain/knowledge/meetings/2026-09-24-kettle-and-crumb-monthly-business-review.md"><i>A2</i><div><b>Recap, 24 Sep review</b><span>New ops contact, budget settled, GMV flagged</span></div></a>
-      <a class="file" href="https://github.com/utkuacikgoz/ironside/blob/main/proposed-changes.md"><i>A2</i><div><b>Proposed changes</b><span>People, account and sheet edits for a person to approve</span></div></a>
-      <a class="file" href="https://github.com/utkuacikgoz/ironside/blob/main/answer.md"><i>A3</i><div><b>Prep for Dana</b><span>What to know before talking affiliates</span></div></a>
-      <a class="file" href="https://github.com/utkuacikgoz/ironside/blob/main/block-b.md"><i>B1 B2</i><div><b>Ranking and cause</b><span>Why South goes first</span></div></a>
-      <a class="file" href="https://github.com/utkuacikgoz/ironside/blob/main/plan.md"><i>B3</i><div><b>One-week plan</b><span>Message, pushback, what sticks</span></div></a>
-      <a class="file" href="https://github.com/utkuacikgoz/ironside/blob/main/block-c.md"><i>C1 C2</i><div><b>Recap review and rerun</b><span>Mistakes, new skill, before and after</span></div></a>
-      <a class="file" href="https://github.com/utkuacikgoz/ironside/blob/main/fde-ticket.md"><i>C3</i><div><b>Engineering ticket</b><span>145 words, with evidence</span></div></a>
-      <a class="file" href="https://github.com/utkuacikgoz/ironside/blob/main/extra/README.md"><i>EX</i><div><b>bizops.py</b><span>Recap linter and dashboard recompute</span></div></a>
-    </div>
-  </section>
-
-  <footer>
-    <span>About 1 hour of human time</span>
-    <span>No questions skipped</span>
-    <span>Next to automate: the pre-post gate, an on-demand recap, a weekly dashboard</span>
-  </footer>
+<div class="hero-grid">
+<div><h1 id="hero-title">The recap is ready.<br><span>The client is waiting.</span></h1>
+<p class="hero-copy">South has a timing problem. Its recaps exist. They arrive late. <strong>Post the summary already written. Close the gap.</strong></p>
+<div class="hero-actions"><a class="primary" href="#evidence">See it in the calls</a><a class="text-link" href="#plan">Read the one week plan</a></div></div>
+<aside class="hero-card" aria-label="South recap performance"><div class="eyebrow">South / Within 60 min</div><div class="hero-number"><span id="hero-rate">35</span><small>%</small></div><p id="hero-count">14 of 40 calls. Target: 80%.</p><div class="mini-track" aria-hidden="true"><div class="mini-fill" id="hero-fill"></div></div><div class="target-label"><span>Current</span><span>80% target</span></div></aside>
 </div>
 
+</section>
+<section class="evidence" id="evidence" aria-labelledby="evidence-title">
+<div class="evidence-head"><div><div class="eyebrow">01 / The evidence</div><h2 id="evidence-title">Every dot is a client call.</h2></div><div class="view-switch" role="group" aria-label="South posting scenario"><button type="button" id="actual-view" aria-pressed="true">As it happened</button><button type="button" id="fixed-view" aria-pressed="false">Fix South’s timing</button></div></div>
+<div class="chart-top"><div class="legend" role="group" aria-label="Highlight recap author"><button type="button" data-author="all" aria-pressed="true">All posts</button><button type="button" data-author="AM" aria-pressed="false"><i aria-hidden="true"></i>Account manager</button><button type="button" data-author="agent" aria-pressed="false"><i class="agent-dot" aria-hidden="true"></i>Agent</button></div><span class="chart-hint">Within 60 min: on time &nbsp; / &nbsp; After 60 min: late</span><span class="readout"><i aria-hidden="true"></i>CALL LOG / 140</span></div>
+<div class="chart-header" aria-hidden="true"><span>POD / ON TIME</span><span>MINUTES UNTIL POSTED</span><span>NO RECAP</span></div>
+<div id="chart"></div>
+<div class="plot-axis" aria-hidden="true"><span></span><div class="axis-scale"><span>0</span><span>15</span><span>30</span><span>45</span><span class="limit">60</span><span>75</span><span>90</span></div><span>No recap</span></div>
+<p class="scenario-note" id="scenario-note">South: 34 recaps posted. Only 14 on time. Six calls have no recap.</p>
+<div class="chart-caption"><p><strong>South loses time. West loses recordings.</strong> Hollow dots are calls without a recording. Filled peach dots are recorded calls with no post. The fix is different for each.</p><a href="#call-data" id="open-data">Inspect the call log</a></div>
+<p class="sr-only" id="scenario-status" role="status" aria-live="polite" aria-atomic="true"></p>
+</section>
+<section class="section" aria-labelledby="insights-title">
+<div class="eyebrow">02 / Find the bottleneck</div><div class="section-title"><h2 id="insights-title">Same target.<br>Different problems.</h2><p>80% of all client calls need a recap within an hour. Count every call. Then fix the step that fails.</p></div>
+<div class="insights"><article class="insight"><div class="insight-number">18<small>MINUTES</small></div><h3>People post faster.</h3><p>The account manager median. All 45 human posts were on time. The agent median is 65 minutes.</p><span class="index">01 / Copy North’s habit</span></article><article class="insight"><div class="insight-number">85<small>PERCENT</small></div><h3>South can clear the target.</h3><p>If its 34 existing recaps had arrived on time, South would reach 85%. No extra calls. No new recaps.</p><span class="index">02 / Fix the timing first</span></article><article class="insight"><div class="insight-number">26<small>CALLS</small></div><h3>West needs capture.</h3><p>26 of 30 calls have no recording. Faster recaps cannot fix a call the agent never receives.</p><span class="index">03 / Solve a different gap</span></article></div>
+</section>
+<section class="section" aria-labelledby="review-title"><div class="review-layout"><div class="review-intro"><div class="eyebrow">03 / Raise the bar</div><h2 id="review-title">A recap should<br>hold up to a read.</h2><p>Short. Factual. Safe to share. The revised skill makes each commitment clear.</p><ul class="checks"><li><span aria-hidden="true">✓</span>One owner. One due date.</li><li><span aria-hidden="true">✓</span>Numbers point to the source.</li><li><span aria-hidden="true">✓</span>Private content stays private.</li></ul><a href="https://github.com/utkuacikgoz/ironside/blob/main/block-c.md">Read the full before and after</a></div>
+<div class="review-card"><div class="review-bar"><span class="eyebrow">Loop Athletic / Weekly</span><div class="tabs" role="tablist" aria-label="Recap comparison"><button type="button" id="before-tab" role="tab" aria-selected="false" aria-controls="before-panel" tabindex="-1">Before</button><button type="button" id="after-tab" role="tab" aria-selected="true" aria-controls="after-panel" tabindex="0">After</button></div></div>
+<div id="after-panel" role="tabpanel" aria-labelledby="after-tab" tabindex="0"><div class="review-body"><h3>The decision. The next step.</h3><ul><li>All 12 fall videos delivered.</li><li>Theo said the try on videos performed better.</li><li>October: 12 more videos, all try on.</li></ul><div class="action"><p><strong>Lena Varga</strong>Send Theo the October brief.</p><time datetime="2026-09-18">18 SEP 2026</time></div><p style="margin-top:18px;color:var(--muted);font-size:12px">Open question: who owns the size chart fix?</p></div><p class="doc-note">Owner and date confirmed. GMV points to the sheet. Private content held back.</p></div>
+<div id="before-panel" role="tabpanel" aria-labelledby="before-tab" tabindex="0" hidden><div class="review-body"><h3>Words without a commitment.</h3><p><mark>Great call with Theo.</mark> All 12 fall videos were delivered. The recap copied a GMV figure that disagreed with the sheet and included private remarks after the client left.</p><div class="action"><p><strong>Send the October brief.</strong><mark>No owner. No due date.</mark></p></div><p style="margin-top:18px;color:var(--muted);font-size:12px">A condensed view of the failed recap.</p></div><p class="doc-note warn">The original failed the linter with 10 problems. The revised recap passes.</p></div></div></div>
+</section>
+<section class="section" id="plan" aria-labelledby="plan-title"><div class="eyebrow">04 / Put it into practice</div><div class="section-title"><h2 id="plan-title">One week.<br>One better habit.</h2><p>Post the summary Marcus already emails. Add an owner and date to each action. Use the client channel.</p></div>
+<div class="plan-layout"><div><div class="plan-tabs" role="tablist" aria-label="Week of 5 to 9 October 2026"><button type="button" id="day-mon" role="tab" aria-selected="true" aria-controls="day-panel" tabindex="0" data-day="0">Mon</button><button type="button" id="day-tue" role="tab" aria-selected="false" aria-controls="day-panel" tabindex="-1" data-day="1">Tue</button><button type="button" id="day-wed" role="tab" aria-selected="false" aria-controls="day-panel" tabindex="-1" data-day="2">Wed</button><button type="button" id="day-thu" role="tab" aria-selected="false" aria-controls="day-panel" tabindex="-1" data-day="3">Thu</button><button type="button" id="day-fri" role="tab" aria-selected="false" aria-controls="day-panel" tabindex="-1" data-day="4">Fri</button></div><div class="plan-panel" id="day-panel" role="tabpanel" aria-labelledby="day-mon" tabindex="0"><div class="eyebrow" id="day-date">5 October / Set the habit</div><h3 id="day-title">Copy what already works.</h3><p id="day-copy">Spend 30 minutes with Sam to learn North’s posting habit. Set it up with Marcus. Fix East’s dashboard denominator.</p></div></div>
+<aside class="goal-card" aria-label="Proposed Friday goal"><div class="eyebrow">Friday goal / South</div><div class="goal-number">70<small>%</small></div><p>From 35%. Seven of ten calls on time.<br>A week one goal, not a reported result.</p><a href="https://github.com/utkuacikgoz/ironside/blob/main/plan.md">Read the operating plan</a></aside></div>
+<div class="details-group"><details><summary>“I already send the client a summary.”</summary><p>The channel post replaces the email. Use the same text. Add one owner and one date per action. Marcus owns the weekly number. Tomas is the backup.</p></details><details><summary>What engineering needs to fix</summary><p>Trace the agent’s delay. Add a run an account manager can trigger. Alert on recorded calls with no recap. Block a post if it lacks owners or dates, copies performance numbers, or includes private content. <a href="https://github.com/utkuacikgoz/ironside/blob/main/fde-ticket.md">Read the evidence ticket.</a></p></details><details><summary>Why East is 70%, not 75%</summary><p>East had 21 timely recaps across 30 calls. The old dashboard used only its 28 recorded calls as the denominator. The target applies to every call, so the comparable result is 70%.</p></details></div>
+</section>
+<section class="section files" id="files" aria-labelledby="files-title"><div class="eyebrow">05 / Open the work</div><div class="files-head"><h2 id="files-title">The proof is in the files.</h2><a href="https://github.com/utkuacikgoz/ironside">View the repository</a></div><div class="files-grid">
+<a class="file" href="https://github.com/utkuacikgoz/ironside/blob/main/brain/knowledge/meetings/2026-09-22-kettle-and-crumb-weekly.md"><span class="file-index">A1</span><span><strong>The weekly recap</strong><small>Six actions. Six owners and dates.</small></span></a>
+<a class="file" href="https://github.com/utkuacikgoz/ironside/blob/main/brain/knowledge/meetings/2026-09-24-kettle-and-crumb-monthly-business-review.md"><span class="file-index">A2</span><span><strong>The monthly review</strong><small>Decisions and follow through.</small></span></a>
+<a class="file" href="https://github.com/utkuacikgoz/ironside/blob/main/answer.md"><span class="file-index">A3</span><span><strong>Before talking to Dana</strong><small>Account context and open questions.</small></span></a>
+<a class="file" href="https://github.com/utkuacikgoz/ironside/blob/main/block-b.md"><span class="file-index">B</span><span><strong>The numbers and the cause</strong><small>Why South goes first.</small></span></a>
+<a class="file" href="https://github.com/utkuacikgoz/ironside/blob/main/block-c.md"><span class="file-index">C</span><span><strong>The skill rewrite</strong><small>Review, fix, fresh rerun.</small></span></a>
+<a class="file" href="https://github.com/utkuacikgoz/ironside/blob/main/extra/README.md"><span class="file-index">EX</span><span><strong>The recap checker</strong><small>Catch mistakes before posting.</small></span></a>
+</div><p style="font-size:12px;color:var(--muted);margin-top:20px">Account updates await approval. <a href="https://github.com/utkuacikgoz/ironside/blob/main/proposed-changes.md">Read the proposed changes.</a></p></section>
+<section class="data-section" aria-label="Source call data"><details id="call-data"><summary>Inspect all 140 calls</summary><div class="data-filters" role="group" aria-label="Filter source calls by pod"><button type="button" data-pod="All" aria-pressed="true">All pods</button><button type="button" data-pod="North" aria-pressed="false">North</button><button type="button" data-pod="East" aria-pressed="false">East</button><button type="button" data-pod="South" aria-pressed="false">South</button><button type="button" data-pod="West" aria-pressed="false">West</button></div><div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable source call log"><table><caption id="data-caption">All pods: 140 calls. Original results from calls.csv.</caption><thead><tr><th scope="col">Call</th><th scope="col">Date</th><th scope="col">Pod</th><th scope="col">Account</th><th scope="col">Author</th><th scope="col">Delay</th><th scope="col">Result</th></tr></thead><tbody id="call-rows"></tbody></table></div><p class="sr-only" id="data-status" role="status" aria-live="polite"></p></details></section>
+</main><footer class="footer"><a class="brand" href="#main">IRONSIDE</a><span>Biz Ops case study / 2 Oct 2026<br>All brands, names and numbers are fictional.</span><a href="https://github.com/utkuacikgoz/ironside/blob/main/calls.csv">Source: calls.csv</a></footer>
+</div>
+<noscript><p style="padding:24px">The interactive chart needs JavaScript. <a href="https://github.com/utkuacikgoz/ironside/blob/main/block-b.md">Read the complete results and evidence.</a></p></noscript>
 <script>
-const DATA={"South":{"am":[],"ag":[45,46,47,47,49,49,50,51,51,52,53,53,57,58,69,71,74,74,74,75,75,76,76,77,80,80,80,80,82,83,85,86,88,91],"lost":2,"norec":4},"North":{"am":[9,9,10,10,11,11,12,13,13,14,14,15,15,16,17,18,18,19,19,19,20,20,21,21,21,21,22,22,22,22,23,23,24],"ag":[48,49,58,65,73],"lost":0,"norec":2},"West":{"am":[],"ag":[51,55,56,71],"lost":0,"norec":26},"East":{"am":[11,12,16,17,18,18,19,24,24,26,27,28],"ag":[46,48,52,55,55,55,57,59,59,67,68,75,77,83,84,86],"lost":0,"norec":2}};
-const ORDER=[['North','Sam Whitaker',90],['East','Aisha Rahman',70],['South','Marcus Obi',35],['West','Lena Varga',10]];
-const MAXM=95, LANE=30;
-const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
-function jit(i,amp){const x=Math.sin(i*12.9898+7.233)*43758.5453;return ((x-Math.floor(x))-.5)*2*amp}
-function draw(){
-  const host=document.getElementById('plot');
-  const W=Math.max(host.clientWidth,300), narrow=W<620;
-  const L=narrow?4:176, R=narrow?4:4, laneW=narrow?64:92, rowH=narrow?84:70, labelH=narrow?26:0, top=26, bot=48;
-  const plotW=W-L-R-laneW-16, x=m=>L+m/MAXM*plotW, laneX=L+plotW+16;
-  const H=top+ORDER.length*(rowH+labelH)+bot;
-  const c={am:css('--am'),agent:css('--agent'),bad:css('--bad'),muted:css('--muted'),line:css('--line'),ink:css('--ink'),zone:css('--late-zone'),wash:css('--wash')};
-  let s=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" font-family="IBM Plex Mono, ui-monospace, monospace">`;
-  s+=`<rect x="${x(60)}" y="${top-14}" width="${x(MAXM)-x(60)}" height="${H-top-bot+14}" fill="${c.zone}" rx="6"/>`;
-  [0,15,30,45,60,75,90].forEach(t=>{s+=`<line x1="${x(t)}" x2="${x(t)}" y1="${top-8}" y2="${H-bot}" stroke="${c.line}" stroke-width="1" ${t===60?'':'stroke-dasharray="2 4"'}/>`;
-    s+=`<text x="${x(t)}" y="${H-bot+20}" fill="${c.muted}" font-size="11.5" text-anchor="middle">${t}</text>`});
-  s+=`<line x1="${x(60)}" x2="${x(60)}" y1="${top-14}" y2="${H-bot}" stroke="${c.bad}" stroke-width="2"/>`;
-  s+=`<text x="${x(60)+8}" y="${top-3}" fill="${c.bad}" font-size="11.5" font-weight="600">60 min: late</text>`;
-  s+=`<text x="${L}" y="${H-8}" fill="${c.muted}" font-size="11.5">minutes after the call ends</text>`;
-  s+=`<text x="${laneX+laneW/2}" y="${top-3}" fill="${c.muted}" font-size="11" text-anchor="middle">NO RECAP</text>`;
-  ORDER.forEach(([pod,lead,share],r)=>{
-    const y0=top+r*(rowH+labelH), cy=y0+labelH+rowH/2, d=DATA[pod];
-    if(r>0) s+=`<line x1="${L}" x2="${W}" y1="${y0-6}" y2="${y0-6}" stroke="${c.line}" stroke-width="1"/>`;
-    const ly=narrow?y0+14:cy-4;
-    s+=`<text x="${narrow?L:0}" y="${ly}" fill="${c.ink}" font-size="${narrow?16:17}" font-weight="700" font-family="Bricolage Grotesque, Hanken Grotesk, sans-serif">${pod}</text>`;
-    s+=`<text x="${narrow?L+56:0}" y="${narrow?ly:cy+16}" fill="${c.muted}" font-size="11.5">${lead}</text>`;
-    d.am.forEach((m,i)=>s+=`<circle class="dot" cx="${x(m)}" cy="${cy+jit(i+r*50,rowH/2-10)+(narrow?6:0)}" r="${narrow?4:5}" fill="${c.am}" fill-opacity=".82"/>`);
-    d.ag.forEach((m,i)=>s+=`<circle class="dot" cx="${x(m)}" cy="${cy+jit(i+r*50+200,rowH/2-10)+(narrow?6:0)}" r="${narrow?4:5}" fill="${c.agent}" fill-opacity=".82"/>`);
-    const cols=narrow?5:7, step=narrow?11:12.5; let k=0;
-    for(let i=0;i<d.norec;i++,k++){const cx=laneX+8+(k%cols)*step, cyy=cy-rowH/2+14+Math.floor(k/cols)*step+(narrow?labelH/2:0);
-      s+=`<circle cx="${cx}" cy="${cyy}" r="4" fill="none" stroke="${c.muted}" stroke-width="1.5"/>`}
-    for(let i=0;i<d.lost;i++,k++){const cx=laneX+8+(k%cols)*step, cyy=cy-rowH/2+14+Math.floor(k/cols)*step+(narrow?labelH/2:0);
-      s+=`<circle cx="${cx}" cy="${cyy}" r="4.5" fill="${c.bad}"/>`}
-    // share, right of the label column
-    const sh=`<text x="${narrow?W-R:L-12}" y="${narrow?ly+2:cy+4}" fill="${share>=80?c.am:c.bad}" font-size="${narrow?22:28}" font-weight="800" text-anchor="end" font-family="Bricolage Grotesque, sans-serif">${share}%</text>`;
-    s+=sh;
-  });
-  s+='</svg>';host.innerHTML=s;
+'use strict';
+const CALLS=[{"id":"c001","date":"2026-09-01","pod":"South","account":"harbor-hound","recorded":true,"by":"agent","minutes":49},{"id":"c002","date":"2026-09-01","pod":"North","account":"fernhill-botanicals","recorded":true,"by":"AM","minutes":22},{"id":"c003","date":"2026-09-01","pod":"South","account":"maple-mornings","recorded":true,"by":"agent","minutes":74},{"id":"c004","date":"2026-09-01","pod":"West","account":"sunday-scoop","recorded":false,"by":"","minutes":null},{"id":"c005","date":"2026-09-01","pod":"North","account":"oak-and-ember","recorded":true,"by":"AM","minutes":22},{"id":"c006","date":"2026-09-01","pod":"North","account":"quill-coffee","recorded":true,"by":"AM","minutes":21},{"id":"c007","date":"2026-09-01","pod":"East","account":"umber-skin","recorded":true,"by":"agent","minutes":83},{"id":"c008","date":"2026-09-01","pod":"West","account":"coral-cove-swim","recorded":false,"by":"","minutes":null},{"id":"c009","date":"2026-09-01","pod":"East","account":"willow-baby","recorded":true,"by":"agent","minutes":59},{"id":"c010","date":"2026-09-01","pod":"South","account":"maple-mornings","recorded":true,"by":"agent","minutes":83},{"id":"c011","date":"2026-09-02","pod":"East","account":"umber-skin","recorded":true,"by":"agent","minutes":68},{"id":"c012","date":"2026-09-02","pod":"North","account":"fernhill-botanicals","recorded":true,"by":"AM","minutes":13},{"id":"c013","date":"2026-09-02","pod":"South","account":"maple-mornings","recorded":true,"by":"agent","minutes":80},{"id":"c014","date":"2026-09-02","pod":"East","account":"saltwater-swim","recorded":true,"by":"agent","minutes":52},{"id":"c015","date":"2026-09-02","pod":"South","account":"harbor-hound","recorded":true,"by":"agent","minutes":75},{"id":"c016","date":"2026-09-02","pod":"West","account":"coral-cove-swim","recorded":false,"by":"","minutes":null},{"id":"c017","date":"2026-09-02","pod":"North","account":"quill-coffee","recorded":true,"by":"AM","minutes":9},{"id":"c018","date":"2026-09-02","pod":"West","account":"coral-cove-swim","recorded":false,"by":"","minutes":null},{"id":"c019","date":"2026-09-03","pod":"South","account":"harbor-hound","recorded":true,"by":"agent","minutes":51},{"id":"c020","date":"2026-09-03","pod":"South","account":"juniper-home","recorded":true,"by":"agent","minutes":75},{"id":"c021","date":"2026-09-03","pod":"North","account":"palm-street-tea","recorded":false,"by":"","minutes":null},{"id":"c022","date":"2026-09-03","pod":"East","account":"saltwater-swim","recorded":true,"by":"agent","minutes":57},{"id":"c023","date":"2026-09-03","pod":"North","account":"fernhill-botanicals","recorded":true,"by":"AM","minutes":19},{"id":"c024","date":"2026-09-03","pod":"South","account":"kettle-and-crumb","recorded":true,"by":"agent","minutes":74},{"id":"c025","date":"2026-09-03","pod":"West","account":"nova-nutrition","recorded":false,"by":"","minutes":null},{"id":"c026","date":"2026-09-03","pod":"North","account":"palm-street-tea","recorded":true,"by":"AM","minutes":22},{"id":"c027","date":"2026-09-03","pod":"East","account":"saltwater-swim","recorded":true,"by":"agent","minutes":46},{"id":"c028","date":"2026-09-04","pod":"South","account":"juniper-home","recorded":true,"by":"agent","minutes":88},{"id":"c029","date":"2026-09-04","pod":"West","account":"loop-athletic","recorded":false,"by":"","minutes":null},{"id":"c030","date":"2026-09-04","pod":"East","account":"tidepool-toys","recorded":true,"by":"agent","minutes":75},{"id":"c031","date":"2026-09-04","pod":"South","account":"maple-mornings","recorded":true,"by":"agent","minutes":86},{"id":"c032","date":"2026-09-04","pod":"East","account":"umber-skin","recorded":false,"by":"","minutes":null},{"id":"c033","date":"2026-09-04","pod":"West","account":"loop-athletic","recorded":false,"by":"","minutes":null},{"id":"c034","date":"2026-09-04","pod":"North","account":"fernhill-botanicals","recorded":true,"by":"AM","minutes":23},{"id":"c035","date":"2026-09-04","pod":"North","account":"oak-and-ember","recorded":true,"by":"agent","minutes":58},{"id":"c036","date":"2026-09-08","pod":"South","account":"golden-hour-cosmetics","recorded":false,"by":"","minutes":null},{"id":"c037","date":"2026-09-08","pod":"South","account":"juniper-home","recorded":true,"by":"agent","minutes":53},{"id":"c038","date":"2026-09-08","pod":"North","account":"ridgeway-outdoor","recorded":true,"by":"AM","minutes":19},{"id":"c039","date":"2026-09-08","pod":"West","account":"nova-nutrition","recorded":false,"by":"","minutes":null},{"id":"c040","date":"2026-09-08","pod":"East","account":"willow-baby","recorded":true,"by":"agent","minutes":67},{"id":"c041","date":"2026-09-08","pod":"West","account":"coral-cove-swim","recorded":false,"by":"","minutes":null},{"id":"c042","date":"2026-09-08","pod":"North","account":"palm-street-tea","recorded":true,"by":"agent","minutes":49},{"id":"c043","date":"2026-09-09","pod":"South","account":"juniper-home","recorded":false,"by":"","minutes":null},{"id":"c044","date":"2026-09-09","pod":"East","account":"tidepool-toys","recorded":true,"by":"agent","minutes":55},{"id":"c045","date":"2026-09-09","pod":"North","account":"fernhill-botanicals","recorded":true,"by":"AM","minutes":20},{"id":"c046","date":"2026-09-09","pod":"North","account":"fernhill-botanicals","recorded":true,"by":"AM","minutes":21},{"id":"c047","date":"2026-09-09","pod":"East","account":"umber-skin","recorded":true,"by":"agent","minutes":86},{"id":"c048","date":"2026-09-09","pod":"North","account":"oak-and-ember","recorded":true,"by":"AM","minutes":12},{"id":"c049","date":"2026-09-09","pod":"South","account":"harbor-hound","recorded":true,"by":"agent","minutes":46},{"id":"c050","date":"2026-09-09","pod":"West","account":"sunday-scoop","recorded":false,"by":"","minutes":null},{"id":"c051","date":"2026-09-10","pod":"East","account":"umber-skin","recorded":true,"by":"agent","minutes":59},{"id":"c052","date":"2026-09-10","pod":"West","account":"pinecrest-apparel","recorded":false,"by":"","minutes":null},{"id":"c053","date":"2026-09-10","pod":"East","account":"saltwater-swim","recorded":true,"by":"agent","minutes":55},{"id":"c054","date":"2026-09-10","pod":"North","account":"quill-coffee","recorded":true,"by":"AM","minutes":14},{"id":"c055","date":"2026-09-10","pod":"West","account":"nova-nutrition","recorded":false,"by":"","minutes":null},{"id":"c056","date":"2026-09-10","pod":"South","account":"juniper-home","recorded":true,"by":"agent","minutes":52},{"id":"c057","date":"2026-09-10","pod":"South","account":"golden-hour-cosmetics","recorded":true,"by":"agent","minutes":57},{"id":"c058","date":"2026-09-10","pod":"North","account":"fernhill-botanicals","recorded":true,"by":"AM","minutes":9},{"id":"c059","date":"2026-09-10","pod":"West","account":"loop-athletic","recorded":true,"by":"agent","minutes":51},{"id":"c060","date":"2026-09-11","pod":"East","account":"velvet-row","recorded":true,"by":"agent","minutes":77},{"id":"c061","date":"2026-09-11","pod":"West","account":"nova-nutrition","recorded":true,"by":"agent","minutes":56},{"id":"c062","date":"2026-09-11","pod":"South","account":"harbor-hound","recorded":true,"by":"agent","minutes":76},{"id":"c063","date":"2026-09-11","pod":"West","account":"sunday-scoop","recorded":false,"by":"","minutes":null},{"id":"c064","date":"2026-09-11","pod":"South","account":"juniper-home","recorded":true,"by":"agent","minutes":76},{"id":"c065","date":"2026-09-11","pod":"East","account":"saltwater-swim","recorded":true,"by":"agent","minutes":84},{"id":"c066","date":"2026-09-11","pod":"North","account":"ridgeway-outdoor","recorded":true,"by":"AM","minutes":13},{"id":"c067","date":"2026-09-11","pod":"North","account":"fernhill-botanicals","recorded":true,"by":"agent","minutes":73},{"id":"c068","date":"2026-09-14","pod":"North","account":"quill-coffee","recorded":true,"by":"AM","minutes":15},{"id":"c069","date":"2026-09-14","pod":"South","account":"maple-mornings","recorded":true,"by":"agent","minutes":45},{"id":"c070","date":"2026-09-14","pod":"North","account":"oak-and-ember","recorded":true,"by":"AM","minutes":10},{"id":"c071","date":"2026-09-14","pod":"South","account":"harbor-hound","recorded":true,"by":"agent","minutes":80},{"id":"c072","date":"2026-09-14","pod":"West","account":"loop-athletic","recorded":false,"by":"","minutes":null},{"id":"c073","date":"2026-09-14","pod":"South","account":"harbor-hound","recorded":true,"by":"agent","minutes":91},{"id":"c074","date":"2026-09-14","pod":"North","account":"oak-and-ember","recorded":true,"by":"AM","minutes":15},{"id":"c075","date":"2026-09-14","pod":"East","account":"tidepool-toys","recorded":true,"by":"agent","minutes":48},{"id":"c076","date":"2026-09-15","pod":"East","account":"velvet-row","recorded":true,"by":"AM","minutes":18},{"id":"c077","date":"2026-09-15","pod":"East","account":"velvet-row","recorded":true,"by":"AM","minutes":26},{"id":"c078","date":"2026-09-15","pod":"West","account":"sunday-scoop","recorded":false,"by":"","minutes":null},{"id":"c079","date":"2026-09-15","pod":"North","account":"fernhill-botanicals","recorded":true,"by":"AM","minutes":21},{"id":"c080","date":"2026-09-15","pod":"North","account":"palm-street-tea","recorded":true,"by":"agent","minutes":65},{"id":"c081","date":"2026-09-15","pod":"South","account":"harbor-hound","recorded":true,"by":"agent","minutes":49},{"id":"c082","date":"2026-09-15","pod":"West","account":"coral-cove-swim","recorded":false,"by":"","minutes":null},{"id":"c083","date":"2026-09-15","pod":"South","account":"maple-mornings","recorded":false,"by":"","minutes":null},{"id":"c084","date":"2026-09-15","pod":"West","account":"loop-athletic","recorded":true,"by":"agent","minutes":55},{"id":"c085","date":"2026-09-16","pod":"East","account":"saltwater-swim","recorded":true,"by":"AM","minutes":12},{"id":"c086","date":"2026-09-16","pod":"South","account":"juniper-home","recorded":true,"by":"agent","minutes":80},{"id":"c087","date":"2026-09-16","pod":"West","account":"nova-nutrition","recorded":false,"by":"","minutes":null},{"id":"c088","date":"2026-09-16","pod":"East","account":"saltwater-swim","recorded":true,"by":"AM","minutes":27},{"id":"c089","date":"2026-09-16","pod":"South","account":"maple-mornings","recorded":true,"by":"agent","minutes":74},{"id":"c090","date":"2026-09-16","pod":"West","account":"sunday-scoop","recorded":false,"by":"","minutes":null},{"id":"c091","date":"2026-09-16","pod":"North","account":"fernhill-botanicals","recorded":true,"by":"agent","minutes":48},{"id":"c092","date":"2026-09-16","pod":"North","account":"quill-coffee","recorded":true,"by":"AM","minutes":11},{"id":"c093","date":"2026-09-17","pod":"North","account":"quill-coffee","recorded":false,"by":"","minutes":null},{"id":"c094","date":"2026-09-17","pod":"West","account":"nova-nutrition","recorded":false,"by":"","minutes":null},{"id":"c095","date":"2026-09-17","pod":"North","account":"ridgeway-outdoor","recorded":true,"by":"AM","minutes":20},{"id":"c096","date":"2026-09-17","pod":"South","account":"kettle-and-crumb","recorded":true,"by":"agent","minutes":80},{"id":"c097","date":"2026-09-17","pod":"North","account":"palm-street-tea","recorded":true,"by":"AM","minutes":21},{"id":"c098","date":"2026-09-17","pod":"South","account":"juniper-home","recorded":true,"by":"agent","minutes":58},{"id":"c099","date":"2026-09-17","pod":"East","account":"velvet-row","recorded":true,"by":"AM","minutes":24},{"id":"c100","date":"2026-09-17","pod":"South","account":"golden-hour-cosmetics","recorded":false,"by":"","minutes":null},{"id":"c101","date":"2026-09-17","pod":"East","account":"willow-baby","recorded":true,"by":"AM","minutes":19},{"id":"c102","date":"2026-09-18","pod":"West","account":"coral-cove-swim","recorded":true,"by":"agent","minutes":71},{"id":"c103","date":"2026-09-18","pod":"West","account":"coral-cove-swim","recorded":false,"by":"","minutes":null},{"id":"c104","date":"2026-09-18","pod":"North","account":"palm-street-tea","recorded":true,"by":"AM","minutes":16},{"id":"c105","date":"2026-09-18","pod":"North","account":"fernhill-botanicals","recorded":true,"by":"AM","minutes":19},{"id":"c106","date":"2026-09-18","pod":"East","account":"tidepool-toys","recorded":true,"by":"AM","minutes":17},{"id":"c107","date":"2026-09-18","pod":"South","account":"golden-hour-cosmetics","recorded":true,"by":"agent","minutes":69},{"id":"c108","date":"2026-09-18","pod":"South","account":"harbor-hound","recorded":true,"by":"agent","minutes":47},{"id":"c109","date":"2026-09-21","pod":"West","account":"nova-nutrition","recorded":false,"by":"","minutes":null},{"id":"c110","date":"2026-09-21","pod":"East","account":"saltwater-swim","recorded":true,"by":"AM","minutes":24},{"id":"c111","date":"2026-09-21","pod":"North","account":"fernhill-botanicals","recorded":true,"by":"AM","minutes":11},{"id":"c112","date":"2026-09-21","pod":"West","account":"sunday-scoop","recorded":false,"by":"","minutes":null},{"id":"c113","date":"2026-09-21","pod":"South","account":"juniper-home","recorded":true,"by":"agent","minutes":85},{"id":"c114","date":"2026-09-21","pod":"North","account":"quill-coffee","recorded":true,"by":"AM","minutes":22},{"id":"c115","date":"2026-09-21","pod":"South","account":"maple-mornings","recorded":true,"by":"agent","minutes":51},{"id":"c116","date":"2026-09-21","pod":"East","account":"saltwater-swim","recorded":true,"by":"AM","minutes":16},{"id":"c117","date":"2026-09-22","pod":"South","account":"kettle-and-crumb","recorded":true,"by":"","minutes":null},{"id":"c118","date":"2026-09-22","pod":"East","account":"saltwater-swim","recorded":true,"by":"AM","minutes":18},{"id":"c119","date":"2026-09-22","pod":"North","account":"quill-coffee","recorded":true,"by":"AM","minutes":18},{"id":"c120","date":"2026-09-22","pod":"West","account":"loop-athletic","recorded":false,"by":"","minutes":null},{"id":"c121","date":"2026-09-22","pod":"South","account":"golden-hour-cosmetics","recorded":true,"by":"agent","minutes":71},{"id":"c122","date":"2026-09-22","pod":"East","account":"velvet-row","recorded":true,"by":"agent","minutes":55},{"id":"c123","date":"2026-09-22","pod":"North","account":"quill-coffee","recorded":true,"by":"AM","minutes":14},{"id":"c124","date":"2026-09-22","pod":"South","account":"golden-hour-cosmetics","recorded":true,"by":"agent","minutes":47},{"id":"c125","date":"2026-09-22","pod":"North","account":"quill-coffee","recorded":true,"by":"AM","minutes":10},{"id":"c126","date":"2026-09-23","pod":"South","account":"juniper-home","recorded":true,"by":"agent","minutes":53},{"id":"c127","date":"2026-09-23","pod":"East","account":"tidepool-toys","recorded":true,"by":"AM","minutes":28},{"id":"c128","date":"2026-09-23","pod":"South","account":"harbor-hound","recorded":true,"by":"agent","minutes":50},{"id":"c129","date":"2026-09-23","pod":"West","account":"pinecrest-apparel","recorded":false,"by":"","minutes":null},{"id":"c130","date":"2026-09-23","pod":"East","account":"tidepool-toys","recorded":false,"by":"","minutes":null},{"id":"c131","date":"2026-09-23","pod":"North","account":"fernhill-botanicals","recorded":true,"by":"AM","minutes":24},{"id":"c132","date":"2026-09-23","pod":"North","account":"oak-and-ember","recorded":true,"by":"AM","minutes":23},{"id":"c133","date":"2026-09-23","pod":"West","account":"loop-athletic","recorded":false,"by":"","minutes":null},{"id":"c134","date":"2026-09-24","pod":"South","account":"juniper-home","recorded":true,"by":"agent","minutes":82},{"id":"c135","date":"2026-09-24","pod":"North","account":"oak-and-ember","recorded":true,"by":"AM","minutes":18},{"id":"c136","date":"2026-09-24","pod":"North","account":"quill-coffee","recorded":true,"by":"AM","minutes":17},{"id":"c137","date":"2026-09-24","pod":"West","account":"nova-nutrition","recorded":false,"by":"","minutes":null},{"id":"c138","date":"2026-09-24","pod":"East","account":"saltwater-swim","recorded":true,"by":"AM","minutes":11},{"id":"c139","date":"2026-09-24","pod":"South","account":"harbor-hound","recorded":true,"by":"agent","minutes":77},{"id":"c140","date":"2026-09-24","pod":"South","account":"kettle-and-crumb","recorded":true,"by":"","minutes":null}];
+const PODS=['North','East','South','West'];
+const LEADS={North:'Sam Whitaker',East:'Aisha Rahman',South:'Marcus Obi',West:'Lena Varga'};
+const state={fixed:false,author:'all',pod:'All'};
+const $=id=>document.getElementById(id);
+function drawChart(){
+  const plotWidth=$('chart').querySelector('svg')?.clientWidth || 700;
+  const position=minute=>8+minute/90*(plotWidth-16);
+  $('chart').innerHTML=PODS.map((pod,row)=>{
+    const calls=CALLS.filter(c=>c.pod===pod);
+    const onTime=calls.filter(c=>c.minutes!==null&&(c.minutes<=60||(state.fixed&&pod==='South'))).length;
+    const rate=Math.round(onTime/calls.length*100);
+    const missing=calls.filter(c=>c.minutes===null);
+    // Measure the plot once per draw so dots stay round at every width. Original minutes stay in CALLS.
+    const dots=calls.filter(c=>c.minutes!==null).map((c,i)=>{
+      const moved=state.fixed&&pod==='South'&&c.minutes>60;
+      const minute=moved?30:c.minutes;
+      const x=position(minute);
+      const y=14+((i*17+row*7)%5)*12;
+      const highlighted=state.author==='all'||c.by===state.author;
+      const color=c.by==='AM'?'#d2f969':'#bca9ff';
+      return `<circle cx="${x}" cy="${y}" r="4.5" fill="${highlighted?color:'none'}" stroke="${color}" stroke-width="${highlighted?0:1}" opacity="${highlighted?1:.4}"/>`;
+    }).join('');
+    const lines=[0,15,30,45,60,75,90].map(n=>`<line x1="${position(n)}" x2="${position(n)}" y1="0" y2="76" stroke="${n===60?'#d2f969':'#46513f'}" stroke-width="${n===60?1.5:1}" ${n===60?'':'stroke-dasharray="2 5"'}/>`).join('');
+    const description=`${pod}: ${onTime} of ${calls.length} calls on time, ${rate} percent. ${missing.filter(c=>!c.recorded).length} calls without recordings. ${missing.filter(c=>c.recorded).length} recorded calls with no recap.${state.fixed&&pod==='South'?' Hypothetical: 20 late recaps moved to 30 minutes.':''}`;
+    return `<div class="plot-row"><div class="pod-label"><div><h3 class="${pod==='South'?'focus-label':''}">${pod}</h3><small>${pod==='South'?'Start here':LEADS[pod]}</small></div><span class="pod-rate ${rate>=80?'met':''}" aria-hidden="true">${rate}%</span></div><svg viewBox="0 0 ${plotWidth} 78" preserveAspectRatio="none" role="img" aria-label="${description}"><rect x="${position(60)}" y="0" width="${plotWidth-position(60)}" height="76" fill="#35412e"/>${lines}${dots}</svg><div class="missing" aria-hidden="true">${missing.map(c=>`<i class="${c.recorded?'lost':''}"></i>`).join('')}</div></div>`;
+  }).join('');
 }
-draw();
-let t;addEventListener('resize',()=>{clearTimeout(t);t=setTimeout(draw,80)});
-matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',draw);
-new MutationObserver(draw).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+function setScenario(fixed){
+  state.fixed=fixed;
+  $('actual-view').setAttribute('aria-pressed',String(!fixed));
+  $('fixed-view').setAttribute('aria-pressed',String(fixed));
+  $('hero-rate').textContent=fixed?'85':'35';
+  $('hero-count').textContent=fixed?'34 of 40 calls. Timing scenario.':'14 of 40 calls. Target: 80%.';
+  $('hero-fill').style.width=fixed?'85%':'35%';
+  const message=fixed?'Timing scenario: move South’s 20 late posts to 30 minutes. 34 of 40 calls meet the hour. Six calls still have no recap. This is a model, not a result.':'South: 34 recaps posted. Only 14 on time. Six calls have no recap.';
+  $('scenario-note').textContent=message;
+  $('scenario-status').textContent=fixed?'South would rise from 35 to 85 percent if all existing recaps were posted on time. This is a hypothetical scenario.':'Original results restored. South: 35 percent on time.';
+  drawChart();
+}
+$('actual-view').addEventListener('click',()=>setScenario(false));
+$('fixed-view').addEventListener('click',()=>setScenario(true));
+document.querySelectorAll('[data-author]').forEach(button=>button.addEventListener('click',()=>{
+  state.author=button.dataset.author;
+  document.querySelectorAll('[data-author]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
+  drawChart();
+}));
+// Native tabs with roving focus: arrows, Home and End. Tab proceeds to the active panel.
+function connectTabs(selector,select){
+  const tabs=[...document.querySelectorAll(selector)];
+  tabs.forEach((tab,index)=>{
+    tab.addEventListener('click',()=>activate(index,false));
+    tab.addEventListener('keydown',event=>{
+      let next;
+      if(event.key==='ArrowRight')next=(index+1)%tabs.length;
+      if(event.key==='ArrowLeft')next=(index+tabs.length-1)%tabs.length;
+      if(event.key==='Home')next=0;
+      if(event.key==='End')next=tabs.length-1;
+      if(next!==undefined){event.preventDefault();activate(next,true)}
+    });
+  });
+  function activate(index,focus){tabs.forEach((tab,i)=>{tab.setAttribute('aria-selected',String(i===index));tab.tabIndex=i===index?0:-1});select(tabs[index],index);if(focus)tabs[index].focus()}
+}
+connectTabs('.tabs [role=tab]',tab=>{
+  ['before','after'].forEach(view=>$(view+'-panel').hidden=tab.id!==view+'-tab');
+});
+const DAYS=[
+ ['5 October / Set the habit','Copy what already works.','Spend 30 minutes with Sam to learn North’s posting habit. Set it up with Marcus. Fix East’s dashboard denominator.'],
+ ['6 October / Close the gaps','Recover the missed calls.','Backfill the two missing Kettle & Crumb recaps. Check each South call the same day. Use the summary already written.'],
+ ['7 October / Agree the measure','Count every client call.','Take the evidence to Priya. Agree one denominator: all calls held. Count a recap once it reaches the client channel.'],
+ ['8 October / Make it stick','Check once. Fix the cause.','Ask once for each late recap. Collect errors in the agent’s draft and turn them into changes to the skill.'],
+ ['9 October / Report the result','Show the number. Own the gap.','Recompute South’s share from the call log. Aim for seven of ten calls on time. Send engineering the delay and missing post evidence.']
+];
+connectTabs('.plan-tabs [role=tab]',(tab,index)=>{
+ $('day-panel').setAttribute('aria-labelledby',tab.id);
+ $('day-date').textContent=DAYS[index][0];$('day-title').textContent=DAYS[index][1];$('day-copy').textContent=DAYS[index][2];
+});
+function fillTable(){
+ const calls=CALLS.filter(c=>state.pod==='All'||c.pod===state.pod);
+ const fragment=document.createDocumentFragment();
+ calls.forEach(c=>{
+   const tr=document.createElement('tr');
+   const result=c.minutes===null?(c.recorded?'Missing recap':'No recording'):(c.minutes<=60?'On time':'Late');
+   [c.id,c.date,c.pod,c.account.replaceAll('-',' '),c.by==='AM'?'Account manager':c.by==='agent'?'Agent':'None',c.minutes===null?'No post':c.minutes+' min',result].forEach(value=>{const td=document.createElement('td');td.textContent=value;tr.append(td)});
+   fragment.append(tr);
+ });
+ $('call-rows').replaceChildren(fragment);
+ $('data-caption').textContent=`${state.pod==='All'?'All pods':state.pod}: ${calls.length} calls. Original results from calls.csv.`;
+}
+let tableReady=false;
+$('call-data').addEventListener('toggle',()=>{if($('call-data').open&&!tableReady){fillTable();tableReady=true}});
+$('open-data').addEventListener('click',()=>{$('call-data').open=true;$('call-data').querySelector('summary').focus({preventScroll:true})});
+document.querySelectorAll('[data-pod]').forEach(button=>button.addEventListener('click',()=>{
+ state.pod=button.dataset.pod;
+ document.querySelectorAll('[data-pod]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
+ fillTable();$('data-status').textContent=$('data-caption').textContent;
+}));
+drawChart();
+let chartWidth=0;
+new ResizeObserver(entries=>{
+ const width=entries[0].contentRect.width;
+ if(Math.abs(width-chartWidth)>1){chartWidth=width;drawChart()}
+}).observe($('chart'));
 </script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "name": "ironside-landing",
+  "private": true,
+  "scripts": {
+    "dev": "python3 -m http.server 4173 --bind 127.0.0.1",
+    "test": "node tests/landing.cjs"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "playwright": "1.63.0"
+  }
+}
