@@ -1,12 +1,12 @@
 # Landing page verification
 
-Checked locally on 6 October 2026 in headless Chrome. The redesign uses black and white with more white space and removes roughly 41% of the previous visible copy. The original default view had 577 words; the revised view has 341. The redesign changes the presentation only. Case study documents and source CSV files remain unchanged.
+Checked locally on 6 October 2026 in headless Chrome. The page presents the recommendation, evidence, execution owners, client safeguards, and deliverables in a consistent monochrome design. The original case inputs and CSV datasets remain unchanged. Derived outputs have navigation paths normalized; proposal wording distinguishes targets from existing system behavior.
 
 ## Automated checks
 
 `npm test` passes at 320, 390, 768, 1024, and 1440 CSS pixels, including axe checks for WCAG 2 A/AA, 2.1 AA, and 2.2 AA. The expanded source log and timing scenario also pass the audit.
 
-Interaction checks cover actual and hypothetical results, author and outcome highlights, pod selection and comparison, the rescue slider, keyboard tab navigation with arrows/Home/End, pod filters, reduced motion, forced colors, a 200% browser zoom viewport equivalent, no page overflow, and no external requests. Every embedded call matches `calls.csv`. Applying the hypothetical timing fix does not change the original source table.
+Interaction checks cover actual and hypothetical results, author and outcome highlights, pod selection and comparison, the rescue slider, owner and recap tabs with arrows/Home/End, pod filters, reduced motion, forced colors, a 200% browser zoom viewport equivalent, no page overflow, and no external requests. Every embedded call matches `calls.csv`. Applying the hypothetical timing fix does not change the original source table.
 
 ## Mobile Lighthouse
 

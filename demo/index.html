@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="140 calls. Four pods. One clear fix. An interactive Ironside case study on getting client recaps posted within the hour.">
+<meta name="description" content="An Ironside Biz Ops case study: prioritize South, reuse existing client summaries, and hold each owner to a measurable recap target.">
 <meta name="theme-color" content="#ffffff">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23111111%27/%3E%3Cpath d=%27M8 23l4-14h4l-4 14zm8 0l4-14h4l-4 14z%27 fill=%27%23ffffff%27/%3E%3C/svg%3E">
 <link rel="preload" href="fonts/InterTight-Medium.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/InterTight-Black.woff2" as="font" type="font/woff2" crossorigin>
-<title>The recap is ready. The client is waiting. | Ironside</title>
+<title>Close the recap gap. Start with South. | Ironside</title>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -17,18 +17,22 @@
 <header class="mast">
 <a class="brand" href="#main" aria-label="Ironside, back to top"><span class="brand-symbol" aria-hidden="true"><i></i><i></i><i></i></span>IRONSIDE</a>
 
-<nav aria-label="Main"><a href="#evidence">Evidence</a><a href="#plan">Plan</a><a href="#files">Files</a></nav>
+<nav aria-label="Main"><a href="#evidence">Evidence</a><a href="#plan">Execution</a><a href="#files">Work</a></nav>
 </header>
 <main id="main" tabindex="-1">
 <section class="hero" aria-labelledby="hero-title">
 
 <div class="hero-grid">
-<div><h1 id="hero-title">The recap is ready.<br><span>The client is waiting.</span></h1>
-<p class="hero-copy">South’s recaps arrive late. <strong>Post the summary already written.</strong></p>
-<div class="hero-actions"><a class="primary" href="#evidence">Explore the calls</a><a class="text-link" href="#plan">See the plan</a></div></div>
+<div><h1 id="hero-title">Close the recap gap.<br><span>Start with South.</span></h1>
+<p class="hero-copy">Give every client action an owner. <strong>Post the summary already written.</strong></p>
+<div class="hero-actions"><a class="primary" href="#evidence">Test the decision</a><a class="text-link" href="#plan">See the owners</a></div></div>
 <aside class="hero-card" aria-label="South recap performance"><div class="eyebrow">South / Within 60 min</div><div class="hero-number"><span id="hero-rate">35</span><small>%</small></div><p id="hero-count">14 of 40 calls. Target: 80%.</p><div class="mini-track" aria-hidden="true"><div class="mini-fill" id="hero-fill"></div></div><div class="target-label"><span>Current</span><span>80% target</span></div></aside>
 </div>
 
+</section>
+<section class="section recommendation" aria-labelledby="insights-title">
+<div class="section-title"><h2 id="insights-title">Prioritize by cause.</h2><p>Target: 80% within the hour, in every pod.</p></div>
+<div class="insights"><article class="insight"><div class="insight-number">18<small>POSTS</small></div><h3>South: recover timing.</h3><p>18 of its 20 late posts on time reaches 80%.</p></article><article class="insight"><div class="insight-number">26<small>CALLS</small></div><h3>West: fix capture.</h3><p>26 calls never reached the agent. A separate recording problem.</p></article><article class="insight"><div class="insight-number">5<small>POINTS</small></div><h3>East: correct reporting.</h3><p>21 of 30 is 70%. Fix the denominator now.</p></article></div>
 </section>
 <section class="evidence" id="evidence" aria-labelledby="evidence-title">
 <div class="evidence-head"><div><h2 id="evidence-title">South posts too late.</h2></div><div class="view-switch" role="group" aria-label="South posting scenario"><button type="button" id="actual-view" aria-pressed="true">As it happened</button><button type="button" id="fixed-view" aria-pressed="false">Fix South’s timing</button></div></div>
@@ -41,21 +45,19 @@
 <div class="chart-caption"><a href="#call-data" id="open-data">Open the call log</a></div>
 <p class="sr-only" id="scenario-status" role="status" aria-live="polite" aria-atomic="true"></p>
 </section>
-<section class="section" aria-labelledby="insights-title">
-<div class="section-title"><h2 id="insights-title">Fix the failing step.</h2><p>Target: 80% of all calls recapped within an hour.</p></div>
-<div class="insights"><article class="insight"><div class="insight-number">18<small>MINUTES</small></div><h3>People post faster.</h3><p>The human median. All 45 posts on time. Agent median: 65 minutes.</p></article><article class="insight"><div class="insight-number">85<small>PERCENT</small></div><h3>South can clear the target.</h3><p>34 existing recaps, posted on time. No new recaps needed.</p></article><article class="insight"><div class="insight-number">26<small>CALLS</small></div><h3>West needs capture.</h3><p>26 of 30 calls never reach the agent.</p></article></div>
+
+
+<section class="section" id="plan" aria-labelledby="plan-title"><div class="section-title"><h2 id="plan-title">Assign the owners.</h2><p>One posting habit. One owner for the number.</p></div>
+<div class="plan-layout"><div><div class="plan-tabs" role="tablist" aria-label="Execution owners"><button type="button" id="owner-ops" role="tab" aria-selected="true" aria-controls="owner-panel" tabindex="0" data-owner="0">Biz Ops</button><button type="button" id="owner-pod" role="tab" aria-selected="false" aria-controls="owner-panel" tabindex="-1" data-owner="1">South pod</button><button type="button" id="owner-eng" role="tab" aria-selected="false" aria-controls="owner-panel" tabindex="-1" data-owner="2">Engineering</button></div><div class="plan-panel" id="owner-panel" role="tabpanel" aria-labelledby="owner-ops" tabindex="0"><h3 id="owner-title">Set up. Verify. Report.</h3><p id="owner-copy">Copy North’s workflow. Backfill two missing recaps. Recompute the result from every call.</p></div></div>
+<aside class="goal-card" aria-label="Proposed Friday goal"><div class="eyebrow">Friday goal / South</div><div class="goal-number">70<small>%</small></div><p>Seven of ten calls on time.<br>Proposed goal. Current: 35%.</p><a href="https://github.com/utkuacikgoz/ironside/blob/main/plan.md">Open the plan</a></aside></div>
+<div class="details-group"><details><summary>“I already send the client a summary.”</summary><p>Replace the email with the same text in the channel. Add owners and dates. Marcus owns the number. Tomas backs him up.</p></details><details><summary>What engineering needs to fix</summary><p>Trace delays. Allow manual runs. Alert on missing recaps. Block unsafe content and actions without owners or dates. <a href="https://github.com/utkuacikgoz/ironside/blob/main/fde-ticket.md">Read the evidence ticket.</a></p></details><details><summary>Why East is 70%, not 75%</summary><p>21 timely recaps across 30 calls: 70%. The old dashboard counted only recorded calls. The target covers every call.</p></details></div>
 </section>
-<section class="section" aria-labelledby="review-title"><div class="review-layout"><div class="review-intro"><h2 id="review-title">Clear actions.<br>Safe recaps.</h2><p>The revised skill makes each commitment clear.</p><ul class="checks"><li><span aria-hidden="true">✓</span>Owner and due date.</li><li><span aria-hidden="true">✓</span>Numbers link to sources.</li><li><span aria-hidden="true">✓</span>Private content withheld.</li></ul><a href="https://github.com/utkuacikgoz/ironside/blob/main/block-c.md">Read the skill rewrite</a></div>
+<section class="section" aria-labelledby="review-title"><div class="review-layout"><div class="review-intro"><h2 id="review-title">Protect client trust.</h2><p>Clearer recap rules. A posting gate still needs engineering.</p><ul class="checks"><li><span aria-hidden="true">✓</span>Owner and due date.</li><li><span aria-hidden="true">✓</span>Numbers link to sources.</li><li><span aria-hidden="true">✓</span>Private content withheld.</li></ul><a href="https://github.com/utkuacikgoz/ironside/blob/main/block-c.md">Read the skill rewrite</a></div>
 <div class="review-card"><div class="review-bar"><span class="eyebrow">Loop Athletic / Weekly</span><div class="tabs" role="tablist" aria-label="Recap comparison"><button type="button" id="before-tab" role="tab" aria-selected="false" aria-controls="before-panel" tabindex="-1">Before</button><button type="button" id="after-tab" role="tab" aria-selected="true" aria-controls="after-panel" tabindex="0">After</button></div></div>
 <div id="after-panel" role="tabpanel" aria-labelledby="after-tab" tabindex="0"><div class="review-body"><h3>Decision and next step.</h3><ul><li>All 12 fall videos delivered.</li><li>Theo: try on videos performed better.</li><li>October: 12 more videos, all try on.</li></ul><div class="action"><p><strong>Lena Varga</strong>Send Theo the October brief.</p><time datetime="2026-09-18">18 SEP 2026</time></div><p class="subtle-note">Unassigned: size chart fix.</p></div><p class="doc-note">GMV links to the sheet. Private content withheld.</p></div>
 <div id="before-panel" role="tabpanel" aria-labelledby="before-tab" tabindex="0" hidden><div class="review-body"><h3>No clear commitment.</h3><p><mark>Great call with Theo.</mark> 12 videos delivered. GMV conflicted with the sheet. Private remarks reached the client channel.</p><div class="action"><p><strong>Send the October brief.</strong><mark>No owner. No due date.</mark></p></div><p class="subtle-note">Condensed from the failed recap.</p></div><p class="doc-note warn">10 linter failures. The revision passes.</p></div></div></div>
 </section>
-<section class="section" id="plan" aria-labelledby="plan-title"><div class="section-title"><h2 id="plan-title">Post once.<br>Post on time.</h2><p>Replace Marcus’s email with a client channel post.</p></div>
-<div class="plan-layout"><div><div class="plan-tabs" role="tablist" aria-label="Week of 5 to 9 October 2026"><button type="button" id="day-mon" role="tab" aria-selected="true" aria-controls="day-panel" tabindex="0" data-day="0">Mon</button><button type="button" id="day-tue" role="tab" aria-selected="false" aria-controls="day-panel" tabindex="-1" data-day="1">Tue</button><button type="button" id="day-wed" role="tab" aria-selected="false" aria-controls="day-panel" tabindex="-1" data-day="2">Wed</button><button type="button" id="day-thu" role="tab" aria-selected="false" aria-controls="day-panel" tabindex="-1" data-day="3">Thu</button><button type="button" id="day-fri" role="tab" aria-selected="false" aria-controls="day-panel" tabindex="-1" data-day="4">Fri</button></div><div class="plan-panel" id="day-panel" role="tabpanel" aria-labelledby="day-mon" tabindex="0"><div class="eyebrow" id="day-date">5 October / Set the habit</div><h3 id="day-title">Copy what already works.</h3><p id="day-copy">Learn North’s habit from Sam. Set it up with Marcus. Correct East’s denominator.</p></div></div>
-<aside class="goal-card" aria-label="Proposed Friday goal"><div class="eyebrow">Friday goal / South</div><div class="goal-number">70<small>%</small></div><p>Seven of ten calls on time.<br>Proposed goal. Current: 35%.</p><a href="https://github.com/utkuacikgoz/ironside/blob/main/plan.md">Open the plan</a></aside></div>
-<div class="details-group"><details><summary>“I already send the client a summary.”</summary><p>Replace the email with the same text in the channel. Add owners and dates. Marcus owns the number. Tomas backs him up.</p></details><details><summary>What engineering needs to fix</summary><p>Trace delays. Allow manual runs. Alert on missing recaps. Block unsafe content and actions without owners or dates. <a href="https://github.com/utkuacikgoz/ironside/blob/main/fde-ticket.md">Read the evidence ticket.</a></p></details><details><summary>Why East is 70%, not 75%</summary><p>21 timely recaps across 30 calls: 70%. The old dashboard counted only recorded calls. The target covers every call.</p></details></div>
-</section>
-<section class="section files" id="files" aria-labelledby="files-title"><div class="files-head"><h2 id="files-title">Read the work.</h2><a href="https://github.com/utkuacikgoz/ironside">Open repository</a></div><div class="files-grid">
+<section class="section files" id="files" aria-labelledby="files-title"><div class="files-head"><h2 id="files-title">Inspect the work.</h2><a href="https://github.com/utkuacikgoz/ironside">Open repository</a></div><div class="files-grid">
 <a class="file" href="https://github.com/utkuacikgoz/ironside/blob/main/brain/knowledge/meetings/2026-09-22-kettle-and-crumb-weekly.md"><span><strong>The weekly recap</strong></span></a>
 <a class="file" href="https://github.com/utkuacikgoz/ironside/blob/main/brain/knowledge/meetings/2026-09-24-kettle-and-crumb-monthly-business-review.md"><span><strong>The monthly review</strong></span></a>
 <a class="file" href="https://github.com/utkuacikgoz/ironside/blob/main/answer.md"><span><strong>Before talking to Dana</strong></span></a>
@@ -205,16 +207,14 @@ function connectTabs(selector,select){
 connectTabs('.tabs [role=tab]',tab=>{
   ['before','after'].forEach(view=>$(view+'-panel').hidden=tab.id!==view+'-tab');
 });
-const DAYS=[
- ['5 October / Set the habit','Copy what already works.','Learn North’s habit from Sam. Set it up with Marcus. Correct East’s denominator.'],
- ['6 October / Close the gaps','Recover the missed calls.','Backfill two missing Kettle & Crumb recaps. Check South’s calls daily.'],
- ['7 October / Agree the measure','Count every client call.','Agree the measure with Priya: every call held, every recap posted in the client channel.'],
- ['8 October / Make it stick','Check once. Fix the cause.','Check late recaps once. Turn draft errors into skill fixes.'],
- ['9 October / Report the result','Show the number. Own the gap.','Recompute the share. Aim for seven of ten. Send engineering the evidence.']
+const OWNERS=[
+ ['Set up. Verify. Report.','Copy North’s workflow. Backfill two missing recaps. Recompute the result from every call.'],
+ ['Marcus owns the number.','Tomas is the backup. Replace the email with a channel recap. Each action has an owner and date.'],
+ ['Remove the system failures.','Trace latency. Add manual runs and missed recap alerts. Enforce a privacy and action gate before posting.']
 ];
 connectTabs('.plan-tabs [role=tab]',(tab,index)=>{
- $('day-panel').setAttribute('aria-labelledby',tab.id);
- $('day-date').textContent=DAYS[index][0];$('day-title').textContent=DAYS[index][1];$('day-copy').textContent=DAYS[index][2];
+ $('owner-panel').setAttribute('aria-labelledby',tab.id);
+ $('owner-title').textContent=OWNERS[index][0];$('owner-copy').textContent=OWNERS[index][1];
 });
 function fillTable(){
  const calls=CALLS.filter(c=>state.pod==='All'||c.pod===state.pod);

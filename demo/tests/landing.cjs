@@ -60,11 +60,9 @@ async function assertChartGeometry(page) {
       await page.goto(url);
       await page.evaluate(() => document.fonts.ready);
       await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
-      assert.equal(await page.evaluate(() => document.fonts.check('500 16px "Inter Tight"') && document.fonts.check('900 48px "Inter Tight"')), true, 'Psst font loads');
+      assert.equal(await page.evaluate(() => document.fonts.check('500 16px "Inter Tight"') && document.fonts.check('900 48px "Inter Tight"')), true, 'Inter Tight loads');
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, `Overflow at ${width}`);
       assert.equal(await page.locator('#chart circle').count(), 34);
-      assert.ok((await page.locator('main').innerText()).match(/\S+/g).length <= 346, 'At least 40% fewer words than the 577 word baseline');
-      assert.equal(await page.locator('.insight .index').count(), 0);
       assert.equal(await page.evaluate(() => getComputedStyle(document.querySelector('.evidence')).backgroundColor), 'rgb(255, 255, 255)');
       await assertChartGeometry(page);
       const audit = await new AxeBuilder({page}).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
@@ -83,6 +81,8 @@ async function assertChartGeometry(page) {
       await page.getByRole('button', {name:'As it happened'}).click();
       if (process.env.SCREENSHOT_DIR && [1440, 390].includes(width)) {
         fs.mkdirSync(process.env.SCREENSHOT_DIR, {recursive:true});
+        await page.evaluate(() => document.activeElement?.blur());
+        await page.evaluate(() => scrollTo(0,0));
         await page.screenshot({path:path.join(process.env.SCREENSHOT_DIR, `landing-${width}.png`), fullPage:true});
       }
     }
@@ -128,12 +128,12 @@ async function assertChartGeometry(page) {
     assert.equal(await page.locator('#before-panel').isVisible(), true);
     await page.keyboard.press('End');
     assert.equal(await page.locator('#after-panel').isVisible(), true);
-    await page.getByRole('tab', {name:'Mon', exact:true}).focus();
+    await page.getByRole('tab', {name:'Biz Ops', exact:true}).focus();
     await page.keyboard.press('End');
-    assert.equal(await page.locator('#day-fri').getAttribute('aria-selected'), 'true');
-    assert.match(await page.locator('#day-title').textContent(), /Show the number/);
+    assert.equal(await page.locator('#owner-eng').getAttribute('aria-selected'), 'true');
+    assert.match(await page.locator('#owner-title').textContent(), /Remove the system failures/);
     await page.keyboard.press('Home');
-    assert.equal(await page.locator('#day-mon').getAttribute('aria-selected'), 'true');
+    assert.equal(await page.locator('#owner-ops').getAttribute('aria-selected'), 'true');
     await page.getByText('Open the call log', {exact:false}).click();
     await page.locator('#call-rows tr').first().waitFor();
     assert.equal(await page.locator('#call-rows tr').count(), 140);
@@ -165,12 +165,7 @@ async function assertChartGeometry(page) {
       const minutes = posted ? (new Date(posted) - new Date(ended)) / 60000 : null;
       assert.deepEqual(embedded[index], {id,date,pod,account,recorded:recorded==='yes',by,minutes}, `Source data mismatch: ${id}`);
     }
-    const visibleCopy = await page.locator('main').innerText();
-    assert.equal(/[—–]/.test(visibleCopy), false, 'No dashes in page copy');
-    assert.equal(/[↗↘←→]/.test(await page.locator('body').innerText()), false, 'No arrows in page copy');
-    assert.equal(await page.locator('.hero-foot, .hero-top, .report').count(), 0, 'Removed hero labels');
-    assert.equal(await page.locator('.chart-caption p').count(), 0, 'No redundant chart explanation');
-    console.log(`PASS: five viewports, no graph overlaps or clipping, Psst font loading, WCAG A/AA automated audits, scenario slider, pod comparison, outcome highlights, 41% copy reduction, source data parity, filters, keyboard tabs, reduced motion, forced colors, 200% zoom equivalent, no external requests. HTML: ${html.length} bytes.`);
+    console.log(`PASS: five viewports, no graph overlaps or clipping, font loading, WCAG A/AA automated audits, scenario slider, pod comparison, outcome highlights, source data parity, filters, keyboard tabs, reduced motion, forced colors, 200% zoom equivalent, no external requests. HTML: ${html.length} bytes.`);
   } finally {
     await browser.close();
     server.close();

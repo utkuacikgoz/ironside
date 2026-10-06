@@ -27,5 +27,5 @@ source: inbox/call-2.md
 - The 17 Sep weekly said about 70 creators sampled in October for the fall flavor. Does that count toward the 60-affiliate target, and does it fit inside the sample cap?
 
 ## Flags for a person
-- **Sheet conflict (GMV):** the figure Dana gave at 00:36 does not match `../reference/accounts-sheet.csv`, row `kettle-and-crumb`. The number is not typed here and the sheet is unchanged. See `proposed-changes.md`.
+- **Sheet conflict (GMV):** the figure Dana gave at 00:36 does not match [accounts-sheet.csv](../reference/accounts-sheet.csv), row `kettle-and-crumb`. The number is not typed here and the sheet is unchanged. See [proposed changes](../../../proposed-changes.md).
 - Nothing held back under SANITIZER.

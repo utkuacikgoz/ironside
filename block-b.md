@@ -22,7 +22,7 @@ Only North is over the 80% target.
 | AM, by hand | 45 | 45 (100%) | 18 (max 28) |
 | Recap agent | 59 | 29 (49%) | 65 (min 45, max 91) |
 
-Every late recap is an agent post. No AM-posted recap was late. The agent never posted faster than 45 minutes in any pod. So the one-hour target is met only when a person posts, or when the agent happens to land in the first 15 minutes of its 45 to 90 minute range.
+Every late recap is an agent post. No AM-posted recap was late. The agent never posted faster than 45 minutes in any pod. So the one-hour target is met only when a person posts, or when the agent happens to land in the first 15 minutes of its 45 to 91 minute range.
 
 The split also shows what kind of gap each pod has:
 
@@ -41,7 +41,7 @@ The split also shows what kind of gap each pod has:
 
 **What is actually causing it.** Three things, in order of how sure I am:
 1. **Nobody in South posts a recap themselves.** 0 of 36, against 33 of 38 in North. The Slack thread ([slack-thread.txt](slack-thread.txt)) says why: the bot lands after Marcus has already emailed his own summary to the client, so they skip it ("content is fine when it shows up", "if it posted in 10-15 min I'd use it"). Their work is happening. It just isn't in the channel, so it isn't counted and isn't in the brain.
-2. **The agent has a 45 minute floor and South gets the slow end.** South agent median is 74 min against 55 to 59 in the other pods. I tested whether that comes from load (calls ending around the same time) or time of day. Neither explains it (correlation about 0 and -0.17). I can't see the cause from the data. That's a question for engineering (C3).
+2. **The agent has a 45 minute floor and South gets the slow end.** South agent median is 74 min against 55.5 to 59 in the other pods. The call log has no timestamps for individual agent stages, so it does not establish the pipeline cause. Ask engineering to trace recording availability, queueing, generation and posting (C3).
 3. **Silent failures.** 2 recorded South calls never got a recap: c117 (22 Sep) and c140 (24 Sep), both Kettle & Crumb, the account with the 60-affiliate push. Kettle & Crumb is 0 for 4 on time. Those are the calls I recapped by hand in Block A.
 
 **Priya's proposal (count the emailed summaries).** I wouldn't. It moves South to its target without changing anything the client or the team gets: emails aren't in the brain, have no owner and due date per action, and aren't in `calls.csv`, so nobody can audit the number. My counter: the same text Marcus emails, posted in the client channel with an owner and a date per action, *is* a recap. That counts, and costs him no extra time. See [plan.md](plan.md).

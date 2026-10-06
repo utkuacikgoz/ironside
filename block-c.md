@@ -50,6 +50,8 @@ Great call with Theo. All 12 fall videos were delivered and the try-on format is
 ```
 
 ### After (`workers/output/after-recap.md`)
+
+The quote below preserves the captured rerun. The linked artifact has repository-relative navigation and source paths normalized; its recap content is unchanged.
 ```
 ---
 type: meeting
