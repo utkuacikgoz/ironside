@@ -29,3 +29,9 @@ Typography uses Inter Tight. Font files are hosted locally, subset to Latin and 
 The page now follows the business argument: recommendation, evidence, accountable execution, client safeguards, and deliverables. The current rate, proposed week one goal, and timing model remain distinct.
 
 The board and timeline use solid marks for timely posts, outlines for late posts, and patterned marks for missing recaps. Secondary author and outcome filters live under the chart disclosure.
+
+## Production deployment
+
+Live URL: https://ironside-case-study.vercel.app/
+
+Deploy from this directory with `vercel --prod --scope utku-acikgozs-projects`. The project is `ironside-case-study`. `vercel.json` serves static assets without an install or build step. `.vercelignore` excludes development files and local environment metadata. Source links on the page are pinned to the reviewed case revision.

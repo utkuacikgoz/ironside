@@ -2,6 +2,8 @@
 
 **Start with South. Recover posting time before adding recording capacity.**
 
+[Open the live case study](https://ironside-case-study.vercel.app/).
+
 This fictional Brightline agency case combines client delivery, operational analysis, and improvements to a recap agent. The recommendation is to reuse South's existing client summaries, correct East's reporting, and address West's recording gap separately.
 
 ## Review the decision

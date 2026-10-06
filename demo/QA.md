@@ -20,3 +20,7 @@ Interaction checks cover actual and hypothetical results, author and outcome hig
 First contentful paint: 1.5 seconds. Largest contentful paint: 1.8 seconds. Total blocking time: 0 ms. Cumulative layout shift: 0. The HTML is about 42 KB. Inter Tight is hosted locally; the five font weights total about 125 KB after subsetting. There are no runtime packages or third party requests. The source table renders only when opened. Chart resizing is observed at its container, without a global resize loop. Every pod and comparison view is checked for dot overlap and clipping at all five widths. Model states are also checked.
 
 These are local lab measurements against Python's static server, not production or field metrics. Enable gzip or Brotli on the eventual static host. Full accessibility conformance requires manual assistive technology testing; automated audits do not cover every criterion. Desktop and phone screenshots were visually reviewed. Real device and screen reader checks are still recommended before publishing.
+
+## Production verification
+
+The production URL is https://ironside-case-study.vercel.app/. An unauthenticated browser check passed at 1440 and 390 pixels, including font loading, the 40 call board, the 18 post timing model, keyboard slider controls, and automated WCAG A/AA checks. Styles and font assets return 200. Development documentation, tests, package metadata, and local environment/project files return 404. Case evidence links point to the reviewed Git revision.
