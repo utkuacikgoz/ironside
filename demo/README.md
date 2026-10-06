@@ -2,7 +2,7 @@
 
 A standalone page with no production dependencies, external fonts, images, or network requests. Open `index.html` directly, or run `python3 -m http.server 4173 --bind 127.0.0.1` from this directory and visit http://127.0.0.1:4173.
 
-The redesign leads with South's timing gap, uses a responsive call chart, and includes a hypothetical timing scenario, author highlighting, recap comparison, keyboard operated weekday tabs, disclosures, and a filterable source table. The source table always shows original results. In the scenario, South's 20 late posts are modeled at 30 minutes; missing recaps remain missing. The Friday goal is a proposal, not an achieved result.
+The monochrome redesign leads with South's timing gap. Select a pod, compare all four, highlight authors or outcomes, and use the rescue slider to model the path to 80%. The page also includes recap comparison, keyboard operated weekday tabs, disclosures, and a filterable source table. The source table always shows original results. In the scenario, select between zero and 20 of South's late posts to model at 30 minutes. Rescuing 18 reaches the 80% target; missing recaps remain missing. The Friday goal is a proposal, not an achieved result.
 
 ## Verify
 
