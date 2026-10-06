@@ -1,6 +1,6 @@
 # Landing page verification
 
-Checked locally on 6 October 2026 in headless Chrome. The page presents the recommendation, evidence, execution owners, client safeguards, and deliverables in a consistent monochrome design. The original case inputs and CSV datasets remain unchanged. Derived outputs have navigation paths normalized; proposal wording distinguishes targets from existing system behavior.
+Checked locally on 6 October 2026 in headless Chrome. The page opens with a 40 call board and a timing model that defaults to the 18 recovered posts needed for the target. Evidence, execution owners, client safeguards, and deliverables follow. Secondary chart filters are disclosed on demand. The original case inputs and CSV datasets remain unchanged. Derived outputs have navigation paths normalized; proposal wording distinguishes targets from existing system behavior.
 
 ## Automated checks
 

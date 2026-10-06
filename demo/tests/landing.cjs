@@ -63,6 +63,8 @@ async function assertChartGeometry(page) {
       assert.equal(await page.evaluate(() => document.fonts.check('500 16px "Inter Tight"') && document.fonts.check('900 48px "Inter Tight"')), true, 'Inter Tight loads');
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, `Overflow at ${width}`);
       assert.equal(await page.locator('#chart circle').count(), 34);
+      assert.equal(await page.locator('.call-cell').count(), 40);
+      assert.equal(await page.locator('.call-cell.timely').count(), 14);
       assert.equal(await page.evaluate(() => getComputedStyle(document.querySelector('.evidence')).backgroundColor), 'rgb(255, 255, 255)');
       await assertChartGeometry(page);
       const audit = await new AxeBuilder({page}).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
@@ -75,10 +77,10 @@ async function assertChartGeometry(page) {
       await page.getByRole('button', {name:'Compare pods'}).click();
       await assertChartGeometry(page);
       await page.locator('[data-pick-pod="South"]').click();
-      await page.getByRole('button', {name:'Fix South’s timing'}).click();
+      await page.locator('#fixed-view').click();
       await assertChartGeometry(page);
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, `Model overflow at ${width}`);
-      await page.getByRole('button', {name:'As it happened'}).click();
+      await page.locator('#actual-view').click();
       if (process.env.SCREENSHOT_DIR && [1440, 390].includes(width)) {
         fs.mkdirSync(process.env.SCREENSHOT_DIR, {recursive:true});
         await page.evaluate(() => document.activeElement?.blur());
@@ -86,10 +88,10 @@ async function assertChartGeometry(page) {
         await page.screenshot({path:path.join(process.env.SCREENSHOT_DIR, `landing-${width}.png`), fullPage:true});
       }
     }
-    await page.getByRole('button', {name:'Fix South’s timing'}).click();
-    assert.equal(await page.locator('#hero-rate').textContent(), '85');
+    await page.locator('#fixed-view').click();
+    assert.equal(await page.locator('#hero-rate').textContent(), '80');
     assert.match(await page.locator('#scenario-note').textContent(), /Model only/);
-    assert.match(await page.locator('.plot-row').first().getByRole('img').getAttribute('aria-label'), /34 of 40/);
+    assert.match(await page.locator('.plot-row').first().getByRole('img').getAttribute('aria-label'), /32 of 40/);
     await page.locator('#rescue-slider').focus();
     await page.keyboard.press('Home');
     assert.equal(await page.locator('#hero-rate').textContent(), '35');
@@ -100,15 +102,17 @@ async function assertChartGeometry(page) {
     await page.keyboard.press('ArrowLeft');
     assert.equal(await page.locator('#hero-rate').textContent(), '80');
     assert.equal(await page.locator('#count-timely').textContent(), '32');
+    assert.equal(await page.locator('.call-cell.timely').count(), 32);
     assert.equal(await page.locator('#count-late').textContent(), '2');
     assert.equal(await page.locator('#count-missing').textContent(), '6');
     await assertChartGeometry(page);
+    await page.locator('#chart-tools').evaluate(el=>el.open=true);
     await page.locator('[data-outcome="late"]').click();
     assert.equal(await page.locator('#chart circle[data-highlighted="true"]').count(), 2);
     await page.locator('[data-outcome="all"]').click();
     const scenarioAudit = await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa','wcag22aa']).analyze();
     assert.deepEqual(scenarioAudit.violations.map(v => v.id), [], 'Slider state accessibility');
-    await page.getByRole('button', {name:'As it happened'}).click();
+    await page.locator('#actual-view').click();
     await page.locator('[data-pick-pod="West"]').click();
     assert.equal(await page.locator('#chart circle').count(), 4);
     assert.equal(await page.locator('#count-missing').textContent(), '26');
@@ -142,7 +146,7 @@ async function assertChartGeometry(page) {
     assert.equal(await page.locator('#call-rows tr').filter({hasText:'On time'}).count(), 14);
     assert.equal(await page.locator('#call-rows tr').filter({hasText:'Late'}).count(), 20);
     assert.equal(await page.locator('#call-rows tr').filter({hasText:'Missing recap'}).count(), 2);
-    await page.getByRole('button', {name:'Fix South’s timing'}).click();
+    await page.locator('#fixed-view').click();
     assert.equal(await page.locator('#call-rows tr').filter({hasText:'On time'}).count(), 14, 'Scenario must not alter source log');
     const audit = await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa','wcag22aa']).analyze();
     assert.deepEqual(audit.violations.map(v => v.id), [], 'Expanded interactive state');

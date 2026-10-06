@@ -2,7 +2,7 @@
 
 A static page with no runtime packages or third party requests. Host `index.html`, `styles.css`, and `fonts/` together. Open `index.html` directly, or run `python3 -m http.server 4173 --bind 127.0.0.1` from this directory and visit http://127.0.0.1:4173.
 
-The monochrome redesign leads with South's timing gap. Select a pod, compare all four, highlight authors or outcomes, and use the rescue slider to model the path to 80%. The page also includes recap comparison, keyboard operated owner tabs, disclosures, and a filterable source table. The source table always shows original results. In the scenario, select between zero and 20 of South's late posts to model within 30 minutes. Rescuing 18 reaches the 80% target; missing recaps remain missing. The Friday goal is a proposal, not an achieved result.
+The opening shows all 40 South calls and lets a reviewer recover late posts directly. The timing model starts at 18 recovered posts, which reaches the 80% target. Select a pod, compare all four, highlight authors or outcomes, and use the rescue slider to model the path to 80%. The page also includes recap comparison, keyboard operated owner tabs, disclosures, and a filterable source table. The source table always shows original results. In the scenario, select between zero and 20 of South's late posts to model within 30 minutes. Rescuing 18 reaches the 80% target; missing recaps remain missing. The Friday goal is a proposal, not an achieved result.
 
 ## Verify
 
@@ -27,3 +27,5 @@ Typography uses Inter Tight. Font files are hosted locally, subset to Latin and 
 ## Review flow
 
 The page now follows the business argument: recommendation, evidence, accountable execution, client safeguards, and deliverables. The current rate, proposed week one goal, and timing model remain distinct.
+
+The board and timeline use solid marks for timely posts, outlines for late posts, and patterned marks for missing recaps. Secondary author and outcome filters live under the chart disclosure.
