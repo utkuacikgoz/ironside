@@ -5,10 +5,40 @@ const fs = require('node:fs');
 const path = require('node:path');
 const http = require('node:http');
 
+async function assertChartGeometry(page) {
+  const problems=await page.locator('#chart svg').evaluateAll(charts=>charts.flatMap(svg=>{
+    const circles=[...svg.querySelectorAll('circle')];
+    const failures=[];
+    for(let i=0;i<circles.length;i++){
+      const a=circles[i];
+      for(let j=i+1;j<circles.length;j++){
+        const b=circles[j];
+        const distance=Math.hypot(a.cx.baseVal.value-b.cx.baseVal.value,a.cy.baseVal.value-b.cy.baseVal.value);
+        if(distance<a.r.baseVal.value+b.r.baseVal.value+1.9)failures.push('Overlapping dots');
+      }
+      const vb=svg.viewBox.baseVal;
+      if(a.cx.baseVal.value-a.r.baseVal.value<0||a.cx.baseVal.value+a.r.baseVal.value>vb.width||a.cy.baseVal.value-a.r.baseVal.value<0||a.cy.baseVal.value+a.r.baseVal.value>vb.height)failures.push('Clipped dot');
+    }
+    return failures;
+  }));
+  assert.deepEqual(problems, [], 'No graph overlap or clipping');
+}
+
 (async () => {
   const file = path.resolve(__dirname, '../index.html');
   const html = fs.readFileSync(file);
   const server = http.createServer((req, res) => {
+    const requested = new URL(req.url, 'http://localhost').pathname;
+    if (requested === '/styles.css') {
+      res.writeHead(200, {'Content-Type':'text/css'});
+      res.end(fs.readFileSync(path.join(path.dirname(file), 'styles.css')));
+      return;
+    }
+    if (/^\/fonts\/InterTight-(Medium|SemiBold|Bold|ExtraBold|Black)\.woff2$/.test(requested)) {
+      res.writeHead(200, {'Content-Type':'font/woff2'});
+      res.end(fs.readFileSync(path.join(path.dirname(file), requested)));
+      return;
+    }
     res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
     res.end(html);
   });
@@ -28,13 +58,29 @@ const http = require('node:http');
     for (const width of [1440, 1024, 768, 390, 320]) {
       await page.setViewportSize({width, height: 1000});
       await page.goto(url);
+      await page.evaluate(() => document.fonts.ready);
+      await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+      assert.equal(await page.evaluate(() => document.fonts.check('500 16px "Inter Tight"') && document.fonts.check('900 48px "Inter Tight"')), true, 'Psst font loads');
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, `Overflow at ${width}`);
       assert.equal(await page.locator('#chart circle').count(), 34);
-      assert.ok((await page.locator('main').innerText()).match(/\S+/g).length <= 461, 'At least 20% fewer words than the 577 word baseline');
+      assert.ok((await page.locator('main').innerText()).match(/\S+/g).length <= 346, 'At least 40% fewer words than the 577 word baseline');
       assert.equal(await page.locator('.insight .index').count(), 0);
       assert.equal(await page.evaluate(() => getComputedStyle(document.querySelector('.evidence')).backgroundColor), 'rgb(255, 255, 255)');
+      await assertChartGeometry(page);
       const audit = await new AxeBuilder({page}).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
       assert.deepEqual(audit.violations.map(v => ({id: v.id, nodes: v.nodes.map(n => n.target)})), [], `Accessibility at ${width}`);
+      for (const pod of ['North','East','South','West']) {
+        await page.locator(`[data-pick-pod="${pod}"]`).click();
+        await assertChartGeometry(page);
+        assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, `${pod} overflow at ${width}`);
+      }
+      await page.getByRole('button', {name:'Compare pods'}).click();
+      await assertChartGeometry(page);
+      await page.locator('[data-pick-pod="South"]').click();
+      await page.getByRole('button', {name:'Fix South’s timing'}).click();
+      await assertChartGeometry(page);
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, `Model overflow at ${width}`);
+      await page.getByRole('button', {name:'As it happened'}).click();
       if (process.env.SCREENSHOT_DIR && [1440, 390].includes(width)) {
         fs.mkdirSync(process.env.SCREENSHOT_DIR, {recursive:true});
         await page.screenshot({path:path.join(process.env.SCREENSHOT_DIR, `landing-${width}.png`), fullPage:true});
@@ -42,7 +88,7 @@ const http = require('node:http');
     }
     await page.getByRole('button', {name:'Fix South’s timing'}).click();
     assert.equal(await page.locator('#hero-rate').textContent(), '85');
-    assert.match(await page.locator('#scenario-note').textContent(), /Model:/);
+    assert.match(await page.locator('#scenario-note').textContent(), /Model only/);
     assert.match(await page.locator('.plot-row').first().getByRole('img').getAttribute('aria-label'), /34 of 40/);
     await page.locator('#rescue-slider').focus();
     await page.keyboard.press('Home');
@@ -56,6 +102,7 @@ const http = require('node:http');
     assert.equal(await page.locator('#count-timely').textContent(), '32');
     assert.equal(await page.locator('#count-late').textContent(), '2');
     assert.equal(await page.locator('#count-missing').textContent(), '6');
+    await assertChartGeometry(page);
     await page.locator('[data-outcome="late"]').click();
     assert.equal(await page.locator('#chart circle[data-highlighted="true"]').count(), 2);
     await page.locator('[data-outcome="all"]').click();
@@ -68,6 +115,7 @@ const http = require('node:http');
     assert.match(await page.locator('#scenario-note').textContent(), /Fix capture first/);
     await page.getByRole('button', {name:'Compare pods'}).click();
     assert.equal(await page.locator('#chart circle').count(), 104);
+    await assertChartGeometry(page);
     assert.equal(await page.locator('#hero-rate').textContent(), '35');
     await page.getByRole('button', {name:'Account manager', exact:true}).click();
     assert.equal(await page.locator('#chart circle[data-highlighted="false"]').count(), 59);
@@ -121,7 +169,8 @@ const http = require('node:http');
     assert.equal(/[—–]/.test(visibleCopy), false, 'No dashes in page copy');
     assert.equal(/[↗↘←→]/.test(await page.locator('body').innerText()), false, 'No arrows in page copy');
     assert.equal(await page.locator('.hero-foot, .hero-top, .report').count(), 0, 'Removed hero labels');
-    console.log(`PASS: five viewports, WCAG A/AA automated audits, scenario slider, pod comparison, outcome highlights, 35% copy reduction, source data parity, filters, keyboard tabs, reduced motion, forced colors, 200% zoom equivalent, no external requests. HTML: ${html.length} bytes.`);
+    assert.equal(await page.locator('.chart-caption p').count(), 0, 'No redundant chart explanation');
+    console.log(`PASS: five viewports, no graph overlaps or clipping, Psst font loading, WCAG A/AA automated audits, scenario slider, pod comparison, outcome highlights, 41% copy reduction, source data parity, filters, keyboard tabs, reduced motion, forced colors, 200% zoom equivalent, no external requests. HTML: ${html.length} bytes.`);
   } finally {
     await browser.close();
     server.close();

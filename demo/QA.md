@@ -1,6 +1,6 @@
 # Landing page verification
 
-Checked locally on 6 October 2026 in headless Chrome. The redesign uses black and white with more white space and removes roughly 35% of the previous visible copy. The original default view had 577 words; the revised view has fewer than 400. The redesign changes the presentation only. Case study documents and source CSV files remain unchanged.
+Checked locally on 6 October 2026 in headless Chrome. The redesign uses black and white with more white space and removes roughly 41% of the previous visible copy. The original default view had 577 words; the revised view has 341. The redesign changes the presentation only. Case study documents and source CSV files remain unchanged.
 
 ## Automated checks
 
@@ -12,11 +12,11 @@ Interaction checks cover actual and hypothetical results, author and outcome hig
 
 | Category | Score |
 | --- | --- |
-| Performance | 100 |
+| Performance | 99 |
 | Accessibility | 100 |
 | Best practices | 100 |
 | SEO | 100 |
 
-First contentful paint and largest contentful paint: 1.0 seconds. Total blocking time: 0 ms. Cumulative layout shift: 0. The standalone HTML is about 62 KB. There are no production packages or downloaded assets. The source table renders only when opened. Chart resizing is observed at its container, without a global resize loop.
+First contentful paint: 1.5 seconds. Largest contentful paint: 1.8 seconds. Total blocking time: 0 ms. Cumulative layout shift: 0. The HTML is about 42 KB. Inter Tight is hosted locally; the five font weights total about 125 KB after subsetting. There are no runtime packages or third party requests. The source table renders only when opened. Chart resizing is observed at its container, without a global resize loop. Every pod and comparison view is checked for dot overlap and clipping at all five widths. Model states are also checked.
 
 These are local lab measurements against Python's static server, not production or field metrics. Enable gzip or Brotli on the eventual static host. Full accessibility conformance requires manual assistive technology testing; automated audits do not cover every criterion. Desktop and phone screenshots were visually reviewed. Real device and screen reader checks are still recommended before publishing.
