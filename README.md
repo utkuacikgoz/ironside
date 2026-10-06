@@ -45,7 +45,7 @@ From the repository root:
 python3 -m http.server 4173 --bind 127.0.0.1
 ```
 
-Open `http://127.0.0.1:4173/demo/`. Static hosting needs `demo/index.html`, `demo/styles.css`, and `demo/fonts/` together. The page has no runtime packages or third party requests.
+Open `http://127.0.0.1:4173/demo/`. Static hosting needs `demo/index.html`, `demo/styles.css`, and `demo/fonts/` together. The page has no runtime packages or third party requests. For Git deployments, set the Vercel project Root Directory to `demo`. The configuration in `demo/vercel.json` serves the existing static assets.
 
 ## Verify the work
 
